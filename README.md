@@ -2,17 +2,17 @@
 
 CIS 3500 Final Project
 
-Members
+Members |
     (1) Caroline Cummings
     (2) Anjana Begur
     (3) Preston Chan
     (4) Shreya Balasubramanian
     (5) Anna Vazhaeparambil
 
-App Description
+App Description |
     The primary objective of our project is to create an educational platform that empowers users to make eco-conscious decisions in their daily lives and that fosters widespread dialogue around environmental sustainability among today’s youth.
 
-Consultants
+Consultants |
     (1) Ivan
     (2) Yixuan
     (3) Riya
