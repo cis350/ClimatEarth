@@ -12,3 +12,5 @@ router.post("/login", authUser);
 router.route("/profile").post(protect, updateUserProfile);
 
 export default router;
+
+
