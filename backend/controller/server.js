@@ -151,6 +151,13 @@ webapp.post('/signup', async (req, resp) => {
   }
 
   try {
+    // Check if the user already exists
+    const existingUser = await users.getUserByUName(req.body.username);
+    if (existingUser) {
+      resp.status(400).json({ message: 'Username already exists' });
+      return;
+    }
+
     // Create the new user object
     const newUser = {
       username: req.body.username,
@@ -160,7 +167,13 @@ webapp.post('/signup', async (req, resp) => {
 
     // Add the user to the database
     const result = await users.addUser(newUser);
-    resp.status(201).json({ data: { id: result } });
+
+    // Generate token for the new user
+    const token = authenticateUser(req.body.username);
+
+    // Return response with token
+    resp.status(201).json({ data: { id: result, token: token } });
+    
   } catch (err) {
     resp.status(400).json({ message: 'There was an error' });
   }
