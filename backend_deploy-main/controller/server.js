@@ -140,6 +140,34 @@ webapp.post('/user', async (req, resp) => {
 });
 
 /**
+ * route implementation POST /signup
+ * Register a new user
+ */
+webapp.post('/signup', async (req, resp) => {
+  // Parse the body
+  if (!req.body.username || !req.body.password || !req.body.email) {
+    resp.status(400).json({ message: 'Missing username, password, or email in the body' });
+    return;
+  }
+
+  try {
+    // Create the new user object
+    const newUser = {
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email
+    };
+
+    // Add the user to the database
+    const result = await users.addUser(newUser);
+    resp.status(201).json({ data: { id: result } });
+  } catch (err) {
+    resp.status(400).json({ message: 'There was an error' });
+  }
+});
+
+
+/**
  * route implementation DELETE /user/:id
  */
 webapp.delete('/user/:id', async (req, res) => {
@@ -162,6 +190,7 @@ webapp.delete('/user/:id', async (req, res) => {
 webapp.put('/user/:id', async (req, res) => {
   console.log('UPDATE a user');
   // parse the body of the request
+  console.log(req.body);
   if (!req.body.password) {
     res.status(400).json({ message: 'missing major' });
     return;
