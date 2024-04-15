@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.75% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/16</span>
+                <span class='fraction'>14/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">68.75% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/16</span>
+                <span class='fraction'>14/16</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -147,20 +147,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -170,7 +158,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -188,7 +188,7 @@ require('dotenv').config();
 const { MongoClient } = require('mongodb');
 &nbsp;
 // the mongodb server URL
-const dbURL = process.env.DB_URL;
+const dbURL = "mongodb+srv://dbUser:team4@cluster0.tv5ngnq.mongodb.net/";
 &nbsp;
 // MongoDB database connection
 let MongoConnection;
@@ -205,22 +205,22 @@ const connect = async () =&gt; {
       dbURL,
     )); // we return the entire connection, not just the DB
     // check that we are connected to the db
-<span class="cstat-no" title="statement not covered" >    console.log(`connected to db: ${MongoConnection.db().databaseName}`);</span>
-<span class="cstat-no" title="statement not covered" >    return MongoConnection;</span>
+    console.log(`connected to db: ${MongoConnection.db().databaseName}`);
+    return MongoConnection;
   } catch (err) {
-    console.log(err.message);
+<span class="cstat-no" title="statement not covered" >    console.log(err.message);</span>
   }
 };
 /**
  *
  * @returns the database attached to this MongoDB connection
  */
-const getDB = <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {
+const getDB = async () =&gt; {
   // test if there is an active connection
-<span class="cstat-no" title="statement not covered" >  if (!MongoConnection) {</span>
+  <span class="missing-if-branch" title="if path not taken" >I</span>if (!MongoConnection) {
 <span class="cstat-no" title="statement not covered" >    await connect();</span>
   }
-<span class="cstat-no" title="statement not covered" >  return MongoConnection.db();</span>
+  return MongoConnection.db();
 };
 &nbsp;
 /**
@@ -244,7 +244,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-14T18:29:21.334Z
+                at 2024-04-15T03:08:17.575Z
             </div>
         <script src="../prettify.js"></script>
         <script>

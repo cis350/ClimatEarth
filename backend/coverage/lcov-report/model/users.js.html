@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.56% </span>
+                <span class="strong">55.31% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/46</span>
+                <span class='fraction'>26/47</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">42.85% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>3/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.56% </span>
+                <span class="strong">55.31% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/46</span>
+                <span class='fraction'>26/47</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -190,7 +190,8 @@
 <a name='L125'></a><a href='#L125'>125</a>
 <a name='L126'></a><a href='#L126'>126</a>
 <a name='L127'></a><a href='#L127'>127</a>
-<a name='L128'></a><a href='#L128'>128</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -204,14 +205,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -222,13 +224,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -240,15 +242,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -330,15 +332,16 @@ const { closeMongoDBConnection, getDB } = require('./dbUtils');
  * @param {*} newStudent
  * @returns
  */
-const addUser = <span class="fstat-no" title="function not covered" >as</span>ync (newUser) =&gt; {
-<span class="cstat-no" title="statement not covered" >  try {</span>
+const addUser = async (newUser) =&gt; {
+  try {
     // get the db
-    const db = <span class="cstat-no" title="statement not covered" >await getDB();</span>
-    const result = <span class="cstat-no" title="statement not covered" >await db.collection('users').insertOne(newUser);</span>
+    console.log("addUser");
+    const db = await getDB();
+    const result = await db.collection('users').insertOne(newUser);
     // print the id of the student
-<span class="cstat-no" title="statement not covered" >    console.log(`New user created with id: ${result.insertedId}`);</span>
+    console.log(`New user created with id: ${result.insertedId}`);
     // return the result
-<span class="cstat-no" title="statement not covered" >    return result.insertedId;</span>
+    return result.insertedId;
   } catch (err) {
 <span class="cstat-no" title="statement not covered" >    console.log(`error: ${err.message}`);</span>
   }
@@ -348,14 +351,14 @@ const addUser = <span class="fstat-no" title="function not covered" >as</span>yn
    *
    * @returns
    */
-const getAllUsers = <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {
-<span class="cstat-no" title="statement not covered" >  try {</span>
+const getAllUsers = async () =&gt; {
+  try {
     // get the db
-    const db = <span class="cstat-no" title="statement not covered" >await getDB();</span>
-    const result = <span class="cstat-no" title="statement not covered" >await db.collection('users').find({}).toArray();</span>
+    const db = await getDB();
+    const result = await db.collection('users').find({}).toArray();
     // print the results
-<span class="cstat-no" title="statement not covered" >    console.log(`Users: ${JSON.stringify(result)}`);</span>
-<span class="cstat-no" title="statement not covered" >    return result;</span>
+    console.log(`Users: ${JSON.stringify(result)}`);
+    return result;
   } catch (err) {
 <span class="cstat-no" title="statement not covered" >    console.log(`error: ${err.message}`);</span>
   }
@@ -366,16 +369,16 @@ const getAllUsers = <span class="fstat-no" title="function not covered" >as</spa
    * @param {*} studentID
    * @returns
    */
-const getUser = <span class="fstat-no" title="function not covered" >as</span>ync (userID) =&gt; {
-<span class="cstat-no" title="statement not covered" >  try {</span>
+const getUser = async (userID) =&gt; {
+  try {
     // get the db
-    const db = <span class="cstat-no" title="statement not covered" >await getDB();</span>
-    const result = <span class="cstat-no" title="statement not covered" >await db.collection('users').findOne({ _id: new ObjectId(userID) });</span>
+    const db = await getDB();
+    const result = await db.collection('users').findOne({ _id: new ObjectId(userID) });
     // print the result
-<span class="cstat-no" title="statement not covered" >    console.log(`User: ${JSON.stringify(result)}`);</span>
-<span class="cstat-no" title="statement not covered" >    return result;</span>
+    console.log(`User: ${JSON.stringify(result)}`);
+    return result;
   } catch (err) {
-<span class="cstat-no" title="statement not covered" >    console.log(`error: ${err.message}`);</span>
+    console.log(`error: ${err.message}`);
   }
 };
 &nbsp;
@@ -451,7 +454,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-04-14T18:29:21.334Z
+                at 2024-04-15T03:08:17.575Z
             </div>
         <script src="../prettify.js"></script>
         <script>
