@@ -10,6 +10,7 @@ const cors = require('cors');
 
 // create a new express app
 const webapp = express();
+webapp.use(express.json());
 
 // import authentication functions
 const { authenticateUser, verifyUser, blacklistJWT } = require('./utils/auth');
@@ -144,7 +145,7 @@ webapp.post('/user', async (req, resp) => {
  * Register a new user
  */
 webapp.post('/signup', async (req, resp) => {
-  // Parse the body
+  //Parse the body
   if (!req.body.username || !req.body.password || !req.body.email) {
     resp.status(400).json({ message: 'Missing username, password, or email in the body' });
     return;
@@ -164,6 +165,8 @@ webapp.post('/signup', async (req, resp) => {
       password: req.body.password,
       email: req.body.email
     };
+
+    console.log("Before adding user");
 
     // Add the user to the database
     const result = await users.addUser(newUser);

@@ -75,4 +75,16 @@ describe('POST /login  endpoint tests', () => {
   
     expect(response.status).toEqual(400); // Check if status code is 400
   });
+
+  test('successful signup response (status code 201)', async () => {
+  
+    // Send a POST request to the /signup endpoint with the user data
+    const response = await request(webapp)
+      .post('/signup')
+      .send({ "username": "newuser", "password" : "lalala", "email": "newuser@example.com" });
+  
+    // Assert that the response status is 201 Created
+    expect(response.status).toBe(201);
+  });
+
 });
