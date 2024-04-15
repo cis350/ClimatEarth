@@ -10,6 +10,7 @@ const cors = require('cors');
 
 // create a new express app
 const webapp = express();
+webapp.use(express.json());
 
 // import authentication functions
 const { authenticateUser, verifyUser, blacklistJWT } = require('./utils/auth');
@@ -44,7 +45,7 @@ webapp.post('/login', (req, resp) => {
   // authenticate the user
   try {
     const token = authenticateUser(req.body.username, req.body.password);
-    resp.status(200).json({ apptoken: token });
+    resp.status(201).json({ apptoken: token });
   } catch (err) {
     console.log('error login', err.message);
     resp.status(401).json({ error: 'hey I am an error' });
@@ -115,29 +116,29 @@ webapp.get('/user/:id', async (req, res) => {
  * route implementation POST /user
  * validate the session
  */
-webapp.post('/user', async (req, resp) => {
-  // parse the body
-  if (!req.body.username || !req.body.password) {
-    resp.status(404).json({ message: 'missing name, email or major in the body' });
-    return;
-  }
-  // verify the session
-  if (await verifyUser(req.headers.authorization)) {
-    try {
-      // create the new user object
-      const newUser = {
-        username: req.body.username,
-        password: req.body.password,
-      };
-      const result = await users.addUser(newUser);
-      resp.status(201).json({ data: { id: result } });
-    } catch (err) {
-      resp.status(400).json({ message: 'There was an error' });
-    }
-  } else {
-    resp.status(401).json({ message: 'Failed Authentication' });
-  }
-});
+// webapp.post('/user', async (req, resp) => {
+//   // parse the body
+//   if (!req.body.username || !req.body.password) {
+//     resp.status(404).json({ message: 'missing name, email or major in the body' });
+//     return;
+//   }
+//   // verify the session
+//   if (await verifyUser(req.headers.authorization)) {
+//     try {
+//       // create the new user object
+//       const newUser = {
+//         username: req.body.username,
+//         password: req.body.password,
+//       };
+//       const result = await users.addUser(newUser);
+//       resp.status(201).json({ data: { id: result } });
+//     } catch (err) {
+//       resp.status(400).json({ message: 'There was an error' });
+//     }
+//   } else {
+//     resp.status(401).json({ message: 'Failed Authentication' });
+//   }
+// });
 
 /**
  * route implementation POST /signup
@@ -152,11 +153,11 @@ webapp.post('/signup', async (req, resp) => {
 
   try {
     // Check if the user already exists
-    const existingUser = await users.getUserByUName(req.body.username);
-    if (existingUser) {
-      resp.status(400).json({ message: 'Username already exists' });
-      return;
-    }
+    // const existingUser = await users.getUserByUName(req.body.username);
+    // if (existingUser) {
+    //   resp.status(400).json({ message: 'Username already exists' });
+    //   return;
+    // }
 
     // Create the new user object
     const newUser = {
