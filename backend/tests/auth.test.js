@@ -5,7 +5,7 @@ const webapp = require('../controller/server');
 // import test utilities function
 const { testUser } = require('./testUtils');
 
-describe('POST /login  enpoint tests', () => {
+describe('POST /login  endpoint tests', () => {
   let mongo; // local mongo connection
   let response; // the response from our express server
   /**
@@ -64,5 +64,15 @@ describe('POST /login  enpoint tests', () => {
     const res = await request(webapp).post('/login/')
       .send('password=testuser');
     expect(res.status).toEqual(401);
+  });
+
+  // sign up tests
+  
+  test('POST /signup - missing a field (password) should return 400', async () => {
+    const response = await request(webapp)
+      .post('/signup')
+      .send({ "username": "newuser", "email": "newuser@example.com" });
+  
+    expect(response.status).toEqual(400); // Check if status code is 400
   });
 });
