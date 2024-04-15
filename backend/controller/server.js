@@ -10,6 +10,7 @@ const cors = require('cors');
 
 // create a new express app
 const webapp = express();
+// add parsing
 webapp.use(express.json());
 
 // import authentication functions
