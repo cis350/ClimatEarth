@@ -145,7 +145,7 @@ webapp.get('/user/:id', async (req, res) => {
  * Register a new user
  */
 webapp.post('/signup', async (req, resp) => {
-  // Parse the body
+  //Parse the body
   if (!req.body.username || !req.body.password || !req.body.email) {
     resp.status(400).json({ message: 'Missing username, password, or email in the body' });
     return;
@@ -165,6 +165,8 @@ webapp.post('/signup', async (req, resp) => {
       password: req.body.password,
       email: req.body.email
     };
+
+    console.log("Before adding user");
 
     // Add the user to the database
     const result = await users.addUser(newUser);
