@@ -9,7 +9,7 @@
 const jwt = require('jsonwebtoken');
 
 // import the env variables
-require('dotenv').config();
+require('dotenv').config({ path: '../../../../.env' });
 
 // import DB function
 const { getUserByUName } = require('../../model/users');
@@ -24,11 +24,11 @@ const jwtBlacklist = new Set();
  */
 const authenticateUser = (username) => {
   try {
-    const token = jwt.sign({ username }, process.env.KEY, { expiresIn: '120s' });
+    const token = jwt.sign({ username }, "123", { expiresIn: '120s' });
     console.log('token', token);
     return token;
   } catch (err) {
-    console.log('error', err.message);
+    console.log('error1', err.message);
     throw err;
   }
 };
@@ -46,7 +46,7 @@ const verifyUser = async (token) => {
     }
 
     // decoded contains the paylod of the token
-    const decoded = jwt.verify(token, process.env.KEY);
+    const decoded = jwt.verify(token, "123");
     console.log('payload', decoded);
     // check that the payload contains a valid user
     const user = await getUserByUName(decoded.username);
@@ -58,11 +58,11 @@ const verifyUser = async (token) => {
   } catch (err) {
     // expired token
     if (err.name === 'TokenExpiredError') {
-      console.log('error', err.message);
+      console.log('error2', err.message);
       return 1;
     }
     // invalid token
-    console.log('error', err.message);
+    console.log('error3', err.message);
     return 3;
   }
 };

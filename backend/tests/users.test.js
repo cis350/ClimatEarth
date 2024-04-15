@@ -9,7 +9,7 @@ const {
 
 // TEST POST ENDPOINT
 describe('GET users(s) endpoint integration test', () => {
-  /**
+/**
  * If you get an error with afterEach
  * inside .eslintrc.json in the
  * "env" key add -'jest': true-

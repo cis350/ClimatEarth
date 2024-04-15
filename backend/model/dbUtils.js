@@ -7,7 +7,7 @@ require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
 // the mongodb server URL
-const dbURL = process.env.DB_URL;
+const dbURL = "mongodb+srv://dbUser:team4@cluster0.tv5ngnq.mongodb.net/";
 
 // MongoDB database connection
 let MongoConnection;

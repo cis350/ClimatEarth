@@ -14,6 +14,7 @@ const { closeMongoDBConnection, getDB } = require('./dbUtils');
 const addUser = async (newUser) => {
   try {
     // get the db
+    console.log("addUser");
     const db = await getDB();
     const result = await db.collection('users').insertOne(newUser);
     // print the id of the student
