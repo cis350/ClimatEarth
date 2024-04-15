@@ -44,7 +44,7 @@ webapp.post('/login', (req, resp) => {
   // authenticate the user
   try {
     const token = authenticateUser(req.body.username, req.body.password);
-    resp.status(201).json({ apptoken: token });
+    resp.status(200).json({ apptoken: token });
   } catch (err) {
     console.log('error login', err.message);
     resp.status(401).json({ error: 'hey I am an error' });
@@ -152,11 +152,11 @@ webapp.post('/signup', async (req, resp) => {
 
   try {
     // Check if the user already exists
-    // const existingUser = await users.getUserByUName(req.body.username);
-    // if (existingUser) {
-    //   resp.status(400).json({ message: 'Username already exists' });
-    //   return;
-    // }
+    const existingUser = await users.getUserByUName(req.body.username);
+    if (existingUser) {
+      resp.status(400).json({ message: 'Username already exists' });
+      return;
+    }
 
     // Create the new user object
     const newUser = {
