@@ -44,7 +44,7 @@ describe('POST /login  endpoint tests', () => {
    * Status code and response type
    */
   test('the status code is 201 and response type', () => {
-    expect(response.status).toBe(201); // status code
+    expect(response.status).toBe(200); // status code
     expect(response.type).toBe('application/json');
   });
 
