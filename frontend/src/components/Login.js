@@ -88,36 +88,41 @@ function Login() {
     password = e.target.value; // update the reference
     console.log('value', password);
   };
+
   // conditional rendering based on the state
   if (loginToken === false) {
     return (
       <div className="App">
-        <label>
-          {' '}
-          Username:
-         <CreateComponent type={'input'} eventHandler={handleUsernameChange} text={'username'}/> 
-        </label>
-        <label>
-          {' '}
-          Password:
-        <CreateComponent type={'input'} eventHandler={handlePasswordChange} text={'password'}/> 
-        </label>
-        <CreateComponent type={'button'} eventHandler={handleLogin} text={'Login'}/> 
-        
+        <h1>Login</h1>
+        <form onSubmit={handleLogin}>
+          <label>
+            {' '}
+            Username:
+          <CreateComponent type={'input'} eventHandler={handleUsernameChange} text={'username'}/> 
+          </label>
+          <label>
+            {' '}
+            Password:
+          <CreateComponent type={'input'} eventHandler={handlePasswordChange} text={'password'}/> 
+          </label>
+         <CreateComponent type={'button'} eventHandler={handleLogin} text={'Login'}/> 
+        </form>
+        <p>Don't have an account? <a href="/signup">Sign up</a></p>
       </div>
     );
   }
-
-  return (
-    <div className="App">
-      <label>
-        {' '}
-        Welcome -empty-|
-        {username} |- the Ref- {usernameRef.current}
-      </label>
-      <CreateComponent type={'button'} eventHandler={handleLogout} text={'Logout'}/> 
-    </div>
-  );
+  else {
+    return (
+      <div className="App">
+        <label>
+          {' '}
+          Welcome -empty-|
+          {username} |- the Ref- {usernameRef.current}
+        </label>
+        <CreateComponent type={'button'} eventHandler={handleLogout} text={'Logout'}/> 
+      </div>
+    );
+  }
 }
 
 export default Login;
