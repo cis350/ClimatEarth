@@ -16,3 +16,10 @@ Consultants |
     (1) Ivan
     (2) Yixuan
     (3) Riya
+
+From git commit: 
+To get the Navbar, I installed:
+
+
+npm install bootstrap
+npm install react-bootstrap bootstrap@5.1.3

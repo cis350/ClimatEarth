@@ -9,6 +9,8 @@ import React, { useState, useRef } from 'react';
 import CreateComponent from './ComponentFactoryHOC';
 // import api functions
 import { loginUser, logoutUser } from '../api/auth';
+import "./Component.css"
+
 /**
  * The login/logout component is stateful
  * The login state is the variable `loginToken`
