@@ -4,6 +4,7 @@ import "./index.css";
 import Navbar from "../Navigation/Navbar.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './Checkbox.css';
+import TasksPage from "./TasksPage.js";
 
 import React, { useState } from "react";
 
@@ -35,6 +36,7 @@ const App = () => {
 		</>
 		)}
 		{currentPage === "/login" && <Login />} {/* Render login component only on the login page */}
+		{currentPage === "/tasks" && <TasksPage />}
 	</>
 	);
 }
