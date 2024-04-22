@@ -11,11 +11,13 @@ const Checkbox = (props) => {
 }
 const App = () => {
 	const [val, setVal] = useState(false); //initializes checkbox to false 
-  const label = "My Checkbox!"
-  const label2 = "Second checkbox" 
+  const label = "Pick up a piece of trash"
+  const label2 = "Recycle" 
+  const label3 = "Use a reusable water bottle"
 	return <>
 		<Checkbox value={val} setValue={setVal} label={label}></Checkbox>
         <Checkbox value={val} setValue={setVal} label={label2}></Checkbox>
+        <Checkbox value={val} setValue={setVal} label={label3}></Checkbox>
         <Login />
 	</>
 }
