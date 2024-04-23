@@ -4,7 +4,7 @@ function TasksPage() {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/tasks')  // Make sure the URL matches your server's
+        fetch('http://localhost:3000/tasks')  // Make sure the URL matches your server's
             .then(response => response.json())
             .then(data => setTasks(data))
             .catch(error => console.error('Error fetching tasks:', error));
