@@ -54,16 +54,16 @@ describe('POST /login  enpoint tests', () => {
     expect(JSON.parse(response.text).apptoken).not.toBe(undefined);
   });
 
-  test('missing a field (password) 401', async () => {
+  test('missing a field (password) 400', async () => {
     const res = await request(webapp).post('/login/')
       .send('usernamename=testuser');
-    expect(res.status).toEqual(401);
+    expect(res.status).toEqual(400);
   });
 
-  test('missing a field (username) 401', async () => {
+  test('missing a field (username) 400', async () => {
     const res = await request(webapp).post('/login/')
       .send('password=testuser');
-    expect(res.status).toEqual(401);
+    expect(res.status).toEqual(400);
   });
 
 
