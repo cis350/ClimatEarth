@@ -119,14 +119,14 @@ describe('POST /login endpoint tests', () => {
         expect(response.body.apptoken).not.toBe(undefined);
     });
 
-    test('missing a field (password) returns 401', async () => {
+    test('missing a field (password) returns 400', async () => {
         const response = await request(webapp).post('/login').send({ username: 'testuser' });
-        expect(response.status).toBe(401);
+        expect(response.status).toBe(400);
     });
 
-    test('missing a field (username) returns 401', async () => {
+    test('missing a field (username) returns 400', async () => {
         const response = await request(webapp).post('/login').send({ password: 'password123' });
-        expect(response.status).toBe(401);
+        expect(response.status).toBe(400);
     });
 });
 
