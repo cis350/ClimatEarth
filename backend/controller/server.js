@@ -35,11 +35,11 @@ webapp.get('/', (_req, resp) => {
 webapp.post('/login', (req, resp) => {
   // check that the name was sent in the body
   if (!req.body.username || req.body.username === '') {
-    resp.status(401).json({ error: 'empty or missing username' });
+    resp.status(400).json({ error: 'empty or missing username' });
     return;
   }
   if (!req.body.password || req.body.password === '') {
-    resp.status(401).json({ error: 'empty or missing password' });
+    resp.status(400).json({ error: 'empty or missing password' });
     return;
   }
   // authenticate the user
