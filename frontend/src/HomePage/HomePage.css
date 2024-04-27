@@ -1,0 +1,44 @@
+.home-page {
+    text-align: center;
+    padding: 50px;
+  }
+  
+  .welcome-message {
+    text-align: center;
+    font-size: 48px;
+    margin-bottom: 30px;
+    font-family: palanquin;
+    font-weight: bolder;
+  }
+  
+  .cta-buttons {
+    margin-top: 20px;
+    align-self: center;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .cta-button:hover {
+    background-color: #45a049;
+  }
+
+  .spacer {
+    height: 30px; 
+  }
+  
+  .earth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  
+  

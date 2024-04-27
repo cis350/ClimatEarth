@@ -26,6 +26,13 @@ function CreateComponent({ type, eventHandler, text }) {
       </button>
     );
   }
+  if (type && type === 'cta-button' && eventHandler) {
+    return (
+      <button type="cta-button" key={key} onClick={eventHandler} className="cta-button">
+        {text}
+      </button>
+    );
+  }
 }
 
 export default CreateComponent;

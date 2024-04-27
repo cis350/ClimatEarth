@@ -38,3 +38,17 @@ export const logoutUser = async () => {
     }
 }
 
+export const signupUser = async (username, password) => {
+    try {
+        const response = await axios.post(`${rootURL}/signup`, {
+            username: username,
+            password: password
+        });
+        // Assuming the API returns a success status code (e.g., 200)
+        return response.status === 200;
+    } catch (err) {
+        console.log('error', err.message);
+        return false;
+    }
+}
+

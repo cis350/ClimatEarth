@@ -5,15 +5,57 @@
     border-radius: 0.25rem;
     outline: none;
   }
+
+  .Sub-Title {
+    padding: 5px;
+    text-align: center;
+    font-family: palanquin;
+    font-weight: bolder;
+  }
+  .message {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+    margin-left: 80px;
+    margin-right: 80px;
+    font-family: palanquin;
+  }
+
+  .team-member {
+    text-align: center;
+    font-size: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+    font-family: palanquin;
+  }
+  
+  .team-member h4 {
+    margin-bottom: 10px;
+    font-family: palanquin;
+  }
+  
+  .team-member p {
+    font-family: palanquin;
+  }
   
   .button {
     padding: 0.5rem 1rem;
     margin: 0.5rem;
     border: 1px solid #ccc;
-    border-radius: 0.25rem;
-    background-color: #fff;
+    border-radius: 5px;
+    background-color: hsl(122, 39%, 49%);
+    color: white;
     cursor: pointer;
     outline: none;
+  }
+
+  .cta-button {
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    background-color: #4CA000;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
   }
   
   .button:hover {

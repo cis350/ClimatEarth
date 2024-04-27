@@ -8,9 +8,10 @@
   
   .navbar-brand {
     font-size: 1.5rem;
-    font-weight: bold;
     color: white; /* White text color */
     text-decoration: none;
+    font-family: palanquin;
+    font-weight: bolder;
   }
   
   .navbar-nav {
@@ -31,4 +32,5 @@
   .nav-link:hover {
     text-decoration: underline;
   }
+
   

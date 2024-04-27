@@ -1,4 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import './Checkbox.css';
+import './ComponentFactoryHOC';
+
+const Checkbox = (props) => {
+	return <label className="checkbox-container">
+		<input type="checkbox" name={props.name} checked={props.val} onChange={() => {props.setValue(!props.val)}}/>
+		{props.label}
+	</label>
+}
 
 function TasksPage() {
     const [tasks, setTasks] = useState([]);
@@ -10,6 +19,11 @@ function TasksPage() {
             .catch(error => console.error('Error fetching tasks:', error));
     }, []);
 
+    const [val, setVal] = useState(false); //initializes checkbox to false 
+	const label = "Pick up a piece of trash"
+	const label2 = "Recycle" 
+	const label3 = "Use a reusable water bottle"
+
     return (
         <div>
             <h1>Daily Tasks</h1>
@@ -20,6 +34,11 @@ function TasksPage() {
                         {task.description}
                     </li>
                 ))}
+                <>
+                    <Checkbox value={val} setValue={setVal} label={label} />
+                    <Checkbox value={val} setValue={setVal} label={label2} />
+                    <Checkbox value={val} setValue={setVal} label={label3} />
+                </>
             </ul>
         </div>
     );

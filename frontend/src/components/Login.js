@@ -93,20 +93,27 @@ function Login() {
   if (loginToken === false) {
     return (
       <div className="App">
-        <h1>Login</h1>
+        <h1 className="App-Title">Login </h1>
         <form onSubmit={handleLogin}>
+        <div>
           <label>
             {' '}
             Username:
           <CreateComponent type={'input'} eventHandler={handleUsernameChange} text={'username'}/> 
           </label>
+        </div>
+        <div>
           <label>
             {' '}
             Password:
           <CreateComponent type={'input'} eventHandler={handlePasswordChange} text={'password'}/> 
           </label>
-         <CreateComponent type={'button'} eventHandler={handleLogin} text={'Login'}/> 
+        </div>
+        <div>
+          <CreateComponent type={'button'} eventHandler={handleLogin} text={'Login'}/> 
+        </div>
         </form>
+        <div className="spacer"></div>
         <p>Don't have an account? <a href="/signup">Sign up</a></p>
       </div>
     );
