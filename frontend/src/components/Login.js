@@ -124,8 +124,7 @@ function Login() {
         <div>
         <label>
           {' '}
-          Welcome -empty-|
-          {username} |- the Ref- {usernameRef.current}
+          Welcome {usernameRef.current}
         </label>
         </div>
         <div>
