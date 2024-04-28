@@ -46,23 +46,18 @@
     background-color: #f0f0f0;
   }
 
-  a.nav-link:link
+a.nav-link:link
 {
-   color: #fb3f00;
+   color: #fff;
    text-decoration: none;
 }
 a.nav-link:visited
 {
-   color: #fb3f00;
+   color: #fff;
    text-decoration: none;
 }
 a.nav-link:hover
 {
-   color: #fb3f00;
-   text-decoration: none;
-}
-a.nav-link:active
-{
-   color: #fb3f00;
+   color: #220a8a;
    text-decoration: none;
 }

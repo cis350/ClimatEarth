@@ -26,7 +26,7 @@ function TasksPage() {
 
     return (
         <div>
-            <h1>Daily Tasks</h1>
+            <h1 className='Sub-Title'>Daily Tasks</h1>
             <ul>
                 {tasks.map(task => (
                     <li key={task.id}>
@@ -39,6 +39,7 @@ function TasksPage() {
                     <Checkbox value={val} setValue={setVal} label={label2} />
                     <Checkbox value={val} setValue={setVal} label={label3} />
                 </>
+                <button className="button">Get New Tasks</button>
             </ul>
         </div>
     );
