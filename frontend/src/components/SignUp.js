@@ -1,23 +1,30 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import CreateComponent from './ComponentFactoryHOC';
 import { signupUser } from '../api/auth'; // Import signup function
 import "./Component.css"
 
 function Signup() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  let username; // will store the username. this value is destroyed after each rendering
+  let password; // will store the password
+  let confirmPassword;
+  const usernameRef = useRef(''); // this  value will persist between rendering
 
+  // input change event handler
   const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+    username = e.target.value; // update local variable
+    usernameRef.current = e.target.value; // update reference
+    console.log('value', username);
   };
 
+   // input change event handler
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    password = e.target.value; // update the reference
+    console.log('value', password);
   };
 
   const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
+    confirmPassword = e.target.value; // update the reference
+    console.log('value', password);
   };
 
   const handleSignup = async (e) => {
@@ -43,22 +50,31 @@ function Signup() {
     <div className="App">
       <h1 className="App-Title">Sign Up</h1>
       <form onSubmit={handleSignup}>
-        <div className="input-container">
-            <label>Username:</label>
-            <CreateComponent type={'input'} eventHandler={handleUsernameChange} text={'username'} />
-        </div>
-        <div className="input-container">
-            <label>Password:</label>
-            <CreateComponent type={'input'} eventHandler={handlePasswordChange} text={'password'} />
-        </div>
-        <div className="input-container">
-            <label>Confirm Password:</label>
-            <CreateComponent type={'input'} eventHandler={handleConfirmPasswordChange} text={'confirmPassword'} />
-        </div>
-        <CreateComponent type={'button'} eventHandler={handleSignup} text={'Sign Up'} />
-      </form>
-      <div className='spacer'></div>
-      <p>Already have an account? <a href="/login">Login</a></p>
+      <div>
+          <label>
+            {' '}
+            Username:
+          <CreateComponent type={'input'} eventHandler={handleUsernameChange} text={'username'} />
+          </label>
+      </div>
+      <div>
+          <label>
+            {' '}
+            Password:
+          <CreateComponent type={'input'} eventHandler={handlePasswordChange} text={'password'} />
+          </label>
+      </div>
+      <div>
+          <label>
+            {' '}
+            Confirm Password:
+          <CreateComponent type={'input'} eventHandler={handleConfirmPasswordChange} text={'confirm Password'} />
+          </label>
+      </div>
+      <CreateComponent type={'button'} eventHandler={handleSignup} text={'Sign Up'} />
+    </form>
+    <div className='spacer'></div>
+    <p>Already have an account? <a href="/login">Login</a></p>
     </div>
   );
 }
