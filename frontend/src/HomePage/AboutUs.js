@@ -1,14 +1,15 @@
 import React from 'react';
-import "./Component.css"
+import "../components/Component.css"
+import "./AboutUs.css"
 
 const AboutUs = () => {
   return (
     <div className="about-us">
-      <h1 className="App-Title">About Us</h1>
+      <h1 className="about-title">About Us</h1>
       <p className="message">Our mission is to educate and inspire individuals to take action for a more sustainable future.</p>
       
-      <h3 className="Sub-Title">Our Team</h3>
-      <div className="team-members">
+      <h3 className="team-title">Our Team</h3>
+      <div>
         <div className="team-member">
           <h4>Caroline Cummings</h4>
           <p></p>

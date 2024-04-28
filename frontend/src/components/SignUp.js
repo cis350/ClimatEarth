@@ -57,6 +57,8 @@ function Signup() {
         </div>
         <CreateComponent type={'button'} eventHandler={handleSignup} text={'Sign Up'} />
       </form>
+      <div className='spacer'></div>
+      <p>Already have an account? <a href="/login">Login</a></p>
     </div>
   );
 }

@@ -126,7 +126,7 @@ function Login() {
           Welcome -empty-|
           {username} |- the Ref- {usernameRef.current}
         </label>
-        <CreateComponent type={'button'} eventHandler={handleLogout} text={'Logout'}/> 
+        <CreateComponent type={'button'} eventHandler={handleLogout} text={<a href="/login"> Logout</a>}/> 
       </div>
     );
   }
