@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 
-// Hardcoded daily tasks - you can change these daily as needed
 let tasks = [
     { id: 1, description: "Pick up a piece of trash" },
     { id: 2, description: "Recycle all of your trash today" },
@@ -18,8 +17,14 @@ let tasks = [
     { id: 13, description: "Cut meat consumption today"}
 ];
 
+function shuffleAndPickTasks() {
+    let shuffledTasks = [...tasks];
+    shuffledTasks.sort(() => Math.random() - 0.5);
+    return shuffledTasks.slice(0, 3);
+}
+
 app.get('/api/tasks', (req, res) => {
-    res.json(tasks);
+    res.json(shuffleAndPickTasks());
 });
 
 const PORT = process.env.PORT || 3000;
