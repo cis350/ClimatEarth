@@ -121,12 +121,15 @@ function Login() {
   else {
     return (
       <div className="App">
+        <div>
         <label>
           {' '}
-          Welcome -empty-|
-          {username} |- the Ref- {usernameRef.current}
+          Welcome {usernameRef.current}
         </label>
-        <CreateComponent type={'button'} eventHandler={handleLogout} text={'Logout'}/> 
+        </div>
+        <div>
+        <CreateComponent type={'button'} eventHandler={handleLogout} text={<a href="/login" class="nav-link"> Logout</a>}/> 
+        </div>
       </div>
     );
   }

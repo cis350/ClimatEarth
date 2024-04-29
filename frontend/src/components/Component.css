@@ -12,29 +12,13 @@
     font-family: palanquin;
     font-weight: bolder;
   }
+
   .message {
     text-align: center;
     font-size: 24px;
     margin-bottom: 30px;
     margin-left: 80px;
     margin-right: 80px;
-    font-family: palanquin;
-  }
-
-  .team-member {
-    text-align: center;
-    font-size: 18px;
-    padding: 20px;
-    margin-bottom: 20px;
-    font-family: palanquin;
-  }
-  
-  .team-member h4 {
-    margin-bottom: 10px;
-    font-family: palanquin;
-  }
-  
-  .team-member p {
     font-family: palanquin;
   }
   
@@ -61,3 +45,19 @@
   .button:hover {
     background-color: #f0f0f0;
   }
+
+a.nav-link:link
+{
+   color: #fff;
+   text-decoration: none;
+}
+a.nav-link:visited
+{
+   color: #fff;
+   text-decoration: none;
+}
+a.nav-link:hover
+{
+   color: #220a8a;
+   text-decoration: none;
+}

@@ -1,0 +1,30 @@
+.about-title {
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: palanquin;
+    font-weight: bolder;
+}
+
+.team-title {
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: palanquin;
+    font-weight: bold;
+}
+
+.team-member {
+    text-align: center;
+    font-size: 18px;
+    padding: 0px;
+    font-family: palanquin;
+  }
+  
+  .team-member h4 {
+    font-family: palanquin;
+  }
+  
+  .team-member p {
+    font-family: palanquin;
+  }

@@ -1,7 +1,10 @@
-const express = require('express');
-const app = express();
+// const express = require('express');
+// const cors = require('cors');
 
-let tasks = [
+
+
+// Static list of tasks
+const tasks = [
     { id: 1, description: "Pick up a piece of trash" },
     { id: 2, description: "Recycle all of your trash today" },
     { id: 3, description: "Use a reusable bag for shopping" },
@@ -17,15 +20,12 @@ let tasks = [
     { id: 13, description: "Cut meat consumption today"}
 ];
 
-function shuffleAndPickTasks() {
-    let shuffledTasks = [...tasks];
-    shuffledTasks.sort(() => Math.random() - 0.5);
-    return shuffledTasks.slice(0, 3);
+// Function to pick three random tasks
+function getRandomTasks() {
+    const shuffled = tasks.sort(() => 0.5 - Math.random()); // Shuffle the array
+    return shuffled.slice(0, 3); // Get the first three elements
 }
 
-app.get('/api/tasks', (req, res) => {
-    res.json(shuffleAndPickTasks());
-});
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+module.exports = {getRandomTasks};
