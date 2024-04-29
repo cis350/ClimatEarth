@@ -7,8 +7,6 @@ import { setHeaders } from "./utils";
  * the /login and /logout endpoints
  */
 
-
-
 /**
  * This function authenticates the user
  * sends a POSt request to the login endpoint
@@ -18,6 +16,9 @@ export const loginUser = async (username, password) => {
     try{
         // add JWT to headers
         setHeaders();
+        console.log("In loginUser auth.js");
+        console.log(username);
+        console.log(password);
         const response = await axios.post(`${rootURL}/login`, `username=${username}&password=${password}`);
         // return the token
         return response.data.apptoken;
@@ -44,8 +45,8 @@ export const signupUser = async (username, password) => {
             username: username,
             password: password
         });
-        // Assuming the API returns a success status code (e.g., 200)
-        return response.status === 200;
+        // Assuming the API returns a success status code (e.g., 201)
+        return response.status === 201;
     } catch (err) {
         console.log('error', err.message);
         return false;

@@ -24,6 +24,7 @@ const jwtBlacklist = new Set();
  */
 const authenticateUser = (username) => {
   try {
+    console.log("In authenticateUser");
     const token = jwt.sign({ username }, "123", { expiresIn: '120s' });
     console.log('token', token);
     return token;

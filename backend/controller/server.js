@@ -23,6 +23,22 @@ webapp.use(express.urlencoded({ extended: true }));
 // import the db function
 const users = require('../model/users');
 
+const { connect } = require('../model/dbUtils');
+
+// Call connect() function to establish connection
+connect()
+  .then(() => {
+    // Connection established, start your server or perform other operations
+    webapp.listen(() => {
+      console.log(`Server is running on port`);
+    });
+  })
+  .catch((err) => {
+    // Handle connection error
+    console.error('Error connecting to database:', err);
+  });
+
+
 // root endpoint route
 webapp.get('/', (_req, resp) => {
   resp.json({ message: 'hello CIS3500 SP24!!!' });
@@ -33,6 +49,9 @@ webapp.get('/', (_req, resp) => {
  * The name is used to log in
  */
 webapp.post('/login', (req, resp) => {
+  console.log("in post request in server.js");
+  console.log(req.body.username);
+  console.log(req.body.password);
   // check that the name was sent in the body
   if (!req.body.username || req.body.username === '') {
     resp.status(400).json({ error: 'empty or missing username' });
@@ -146,24 +165,17 @@ webapp.get('/user/:id', async (req, res) => {
  */
 webapp.post('/signup', async (req, resp) => {
   //Parse the body
-  if (!req.body.username || !req.body.password || !req.body.email) {
+  if (!req.body.username || !req.body.password) {
     resp.status(400).json({ message: 'Missing username, password, or email in the body' });
     return;
   }
 
   try {
-    // Check if the user already exists
-    // const existingUser = await users.getUserByUName(req.body.username);
-    // if (existingUser) {
-    //   resp.status(400).json({ message: 'Username already exists' });
-    //   return;
-    // }
 
     // Create the new user object
     const newUser = {
       username: req.body.username,
       password: req.body.password,
-      email: req.body.email
     };
 
     console.log("Before adding user");
