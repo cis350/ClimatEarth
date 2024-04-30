@@ -34,6 +34,7 @@ function Login() {
   const [loginToken, setLoginToken] = useState(sessionStorage.getItem('app-token')!== null);
   let username; // will store the username. this value is destroyed after each rendering
   let password; // will store the password
+  const [error, setError] = useState(null);
   const usernameRef = useRef(''); // this  value will persist between rendering
   
   // login button click event handler.
@@ -42,21 +43,20 @@ function Login() {
    * @param {Event} e the click event dispatched by the login button
    */
   const handleLogin = async (e) => {
-    // authenticate the user, the token is returned if success
-    const token = await loginUser(username, password);
-    
-    if(token){  // check that the token is not undefined
-      // store the token
-      localStorage.setItem('app-token', token);
-      // update the login state
-      setLoginToken(true);
-      console.log('login', token);
-
-    }else{
-        console.log('Error', 'authentication failure');
+    try {
+      const token = await loginUser(username, password);
+      if (token) {
+        localStorage.setItem('app-token', token);
+        setLoginToken(true);
+        setError(null);
+        console.log('Login successful');
+      } else {
+        setError('Authentication failed. Please check your credentials.');
+      }
+    } catch (error) {
+      setError('An error occurred during login. Please try again later.');
+      console.error('Error during login:', error.message);
     }
-    
-    
   };
 
   /**
@@ -115,6 +115,7 @@ function Login() {
         </form>
         <div className="spacer"></div>
         <p>Don't have an account? <a href="/signup">Sign up</a></p>
+        {error && <p className="error-message">{error}</p>}
       </div>
     );
   }
@@ -126,6 +127,7 @@ function Login() {
           {' '}
           Welcome {usernameRef.current}
         </label>
+        {error && <p className="error-message">{error}</p>}
         </div>
         <div>
         <CreateComponent type={'button'} eventHandler={handleLogout} text={<a href="/login" class="cta-buttons"> Logout</a>}/> 

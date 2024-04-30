@@ -21,7 +21,7 @@ export const loginUser = async (username, password) => {
         console.log(password);
         const response = await axios.post(`${rootURL}/login`, `username=${username}&password=${password}`);
         // return the token
-        return response.data.apptoken;
+        return response.status === 200;
     } catch (err){
         console.log('error', err.message);
     }
