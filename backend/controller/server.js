@@ -53,7 +53,7 @@ webapp.get('/', (_req, resp) => {
  * Login endpoint
  * The name is used to log in
  */
-webapp.post('/login', (req, resp) => {
+webapp.post('/login', async (req, resp) => {
   console.log("in post request in server.js");
   console.log(req.body.username);
   console.log(req.body.password);
@@ -64,16 +64,21 @@ webapp.post('/login', (req, resp) => {
   }
   if (!req.body.password || req.body.password === '') {
     resp.status(400).json({ error: 'empty or missing password' });
-    return;
-  }
+  } 
   // authenticate the user
   try {
     const token = authenticateUser(req.body.username, req.body.password);
-    resp.status(201).json({ apptoken: token });
+    const verificationResult = await verifyUser(token);
+    if (verificationResult === 0) {
+      // User verified, login successful
+      resp.status(200).json({ apptoken: token });
+    } else {
+      throw new Error('User verification failed');
+    }
   } catch (err) {
     console.log('error login', err.message);
     resp.status(401).json({ error: 'hey I am an error' });
-  }
+  } 
 });
 
 /**
