@@ -32,6 +32,10 @@
   height: 30px; 
 }
 
+.checkbox {
+  margin-left: 150pt;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

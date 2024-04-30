@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Checkbox.css';
 import './Component.css';
+import './App.js'
 
 const Checkbox = (props) => {
     return (
@@ -40,9 +41,9 @@ function TasksPage() {
     };
 
     return (
-        <div>
-            <h1 className='App-Title'>Fun Tasks</h1>
-            <ul>
+        <div className="App">
+            <h1 className='Sub-Title'>Fun Tasks</h1>
+            <ul className='checkbox'>
                 <Checkbox value={checkboxValues[0]} setValue={() => handleCheckboxChange(0)} label={label} />
                 <Checkbox value={checkboxValues[1]} setValue={() => handleCheckboxChange(1)} label={label2} />
                 <Checkbox value={checkboxValues[2]} setValue={() => handleCheckboxChange(2)} label={label3} />
