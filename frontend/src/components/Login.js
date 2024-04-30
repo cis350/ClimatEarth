@@ -128,7 +128,7 @@ function Login() {
         </label>
         </div>
         <div>
-        <CreateComponent type={'button'} eventHandler={handleLogout} text={<a href="/login" class="nav-link"> Logout</a>}/> 
+        <CreateComponent type={'button'} eventHandler={handleLogout} text={<a href="/login" class="cta-buttons"> Logout</a>}/> 
         </div>
       </div>
     );

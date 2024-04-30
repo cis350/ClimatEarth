@@ -28,6 +28,7 @@ webapp.use(express.urlencoded({ extended: true }));
 // import the db function
 const users = require('../model/users');
 
+<<<<<<< HEAD
 const { connect } = require('../model/dbUtils');
 
 // Call connect() function to establish connection
@@ -43,6 +44,8 @@ connect()
     console.error('Error connecting to database:', err);
   });
 
+=======
+>>>>>>> origin/taskspagechanges
 
 // root endpoint route
 webapp.get('/', (_req, resp) => {

@@ -5,17 +5,11 @@
 // import express
 const express = require('express');
 
-// import getRandomTasks
-
-const { getRandomTasks } = require('./utils/tasks');
-
-
 // import the cors -cross origin resource sharing- module
 const cors = require('cors');
 
 // create a new express app
 const webapp = express();
-webapp.use(express.json());
 
 // import authentication functions
 const { authenticateUser, verifyUser, blacklistJWT } = require('./utils/auth');
@@ -28,22 +22,6 @@ webapp.use(express.urlencoded({ extended: true }));
 // import the db function
 const users = require('../model/users');
 
-const { connect } = require('../model/dbUtils');
-
-// Call connect() function to establish connection
-connect()
-  .then(() => {
-    // Connection established, start your server or perform other operations
-    webapp.listen(() => {
-      console.log(`Server is running on port`);
-    });
-  })
-  .catch((err) => {
-    // Handle connection error
-    console.error('Error connecting to database:', err);
-  });
-
-
 // root endpoint route
 webapp.get('/', (_req, resp) => {
   resp.json({ message: 'hello CIS3500 SP24!!!' });
@@ -54,16 +32,13 @@ webapp.get('/', (_req, resp) => {
  * The name is used to log in
  */
 webapp.post('/login', (req, resp) => {
-  console.log("in post request in server.js");
-  console.log(req.body.username);
-  console.log(req.body.password);
   // check that the name was sent in the body
   if (!req.body.username || req.body.username === '') {
-    resp.status(400).json({ error: 'empty or missing username' });
+    resp.status(401).json({ error: 'empty or missing username' });
     return;
   }
   if (!req.body.password || req.body.password === '') {
-    resp.status(400).json({ error: 'empty or missing password' });
+    resp.status(401).json({ error: 'empty or missing password' });
     return;
   }
   // authenticate the user
@@ -140,67 +115,29 @@ webapp.get('/user/:id', async (req, res) => {
  * route implementation POST /user
  * validate the session
  */
-// webapp.post('/user', async (req, resp) => {
-//   // parse the body
-//   if (!req.body.username || !req.body.password) {
-//     resp.status(404).json({ message: 'missing name, email or major in the body' });
-//     return;
-//   }
-//   // verify the session
-//   if (await verifyUser(req.headers.authorization)) {
-//     try {
-//       // create the new user object
-//       const newUser = {
-//         username: req.body.username,
-//         password: req.body.password,
-//       };
-//       const result = await users.addUser(newUser);
-//       resp.status(201).json({ data: { id: result } });
-//     } catch (err) {
-//       resp.status(400).json({ message: 'There was an error' });
-//     }
-//   } else {
-//     resp.status(401).json({ message: 'Failed Authentication' });
-//   }
-// });
-
-/**
- * route implementation POST /signup
- * Register a new user
- */
-webapp.post('/signup', async (req, resp) => {
-  //Parse the body
+webapp.post('/user', async (req, resp) => {
+  // parse the body
   if (!req.body.username || !req.body.password) {
-    resp.status(400).json({ message: 'Missing username, password, or email in the body' });
+    resp.status(404).json({ message: 'missing name, email or major in the body' });
     return;
   }
-
-  try {
-
-    // Create the new user object
-    const newUser = {
-      username: req.body.username,
-      password: req.body.password,
-    };
-
-    console.log("Before adding user");
-
-    // Add the user to the database
-    const result = await users.addUser(newUser);
-
-    // Generate token for the new user
-    const token = authenticateUser(req.body.username);
-    
-    console.log("Result: ", newUser);
-    console.log("Token: ", token);
-    // Return response with token
-    resp.status(201).json({ data: { id: result, token: token } });
-    
-  } catch (err) {
-    resp.status(400).json({ message: 'There was an error - signup' });
+  // verify the session
+  if (await verifyUser(req.headers.authorization)) {
+    try {
+      // create the new user object
+      const newUser = {
+        username: req.body.username,
+        password: req.body.password,
+      };
+      const result = await users.addUser(newUser);
+      resp.status(201).json({ data: { id: result } });
+    } catch (err) {
+      resp.status(400).json({ message: 'There was an error' });
+    }
+  } else {
+    resp.status(401).json({ message: 'Failed Authentication' });
   }
 });
-
 
 /**
  * route implementation DELETE /user/:id
@@ -225,7 +162,6 @@ webapp.delete('/user/:id', async (req, res) => {
 webapp.put('/user/:id', async (req, res) => {
   console.log('UPDATE a user');
   // parse the body of the request
-  console.log(req.body);
   if (!req.body.password) {
     res.status(400).json({ message: 'missing major' });
     return;
@@ -238,20 +174,6 @@ webapp.put('/user/:id', async (req, res) => {
     res.status(404).json({ message: 'there was error' });
   }
 });
-
-
-// API route to get three random tasks
-webapp.get('/api/tasks', (req, res) => {
-  try {
-      const selectedTasks = getRandomTasks();
-      console.log("Selected Tasks:", selectedTasks); // Logging for debugging
-      res.json(selectedTasks);
-  } catch (error) {
-      console.error("Error fetching tasks:", error);
-      res.status(500).send("An error occurred while fetching tasks");
-  }
-});
-
 
 // export the webapp
 module.exports = webapp;

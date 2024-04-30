@@ -5,11 +5,6 @@
 // import express
 const express = require('express');
 
-// import getRandomTasks
-
-const { getRandomTasks } = require('./utils/tasks');
-
-
 // import the cors -cross origin resource sharing- module
 const cors = require('cors');
 
@@ -238,20 +233,6 @@ webapp.put('/user/:id', async (req, res) => {
     res.status(404).json({ message: 'there was error' });
   }
 });
-
-
-// API route to get three random tasks
-webapp.get('/api/tasks', (req, res) => {
-  try {
-      const selectedTasks = getRandomTasks();
-      console.log("Selected Tasks:", selectedTasks); // Logging for debugging
-      res.json(selectedTasks);
-  } catch (error) {
-      console.error("Error fetching tasks:", error);
-      res.status(500).send("An error occurred while fetching tasks");
-  }
-});
-
 
 // export the webapp
 module.exports = webapp;
