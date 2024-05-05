@@ -7,6 +7,7 @@ import './Checkbox.css';
 import TasksPage from "./TasksPage.js";
 import HomePage from "../HomePage/HomePage.js";
 import Signup from "./SignUp.js";
+import Carbon from "./Carbon.js";
 
 //import React, { useState } from "react";
 
@@ -20,6 +21,7 @@ const App = () => {
 		</div>
 		{currentPage === "/" && <HomePage />}
 		{currentPage === "/tasks" && <TasksPage />}
+		{currentPage === "/carbon" && <Carbon />}
 		{currentPage === "/login" && <Login />}
 		{currentPage === "/signup" && <Signup />}
 	</>
