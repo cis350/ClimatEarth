@@ -92,8 +92,8 @@ function Login() {
   // conditional rendering based on the state
   if (loginToken === false) {
     return (
-      <div className="App">
-        <h1 className="App-Title">Login </h1>
+      <div className="login-container">
+        <h1 className="login-title">Login </h1>
         <form onSubmit={handleLogin}>
         <div>
           <label>
