@@ -3,7 +3,7 @@ import Login from './Login.js';
 import "./index.css";
 import Navbar from "../Navigation/Navbar.js";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './Checkbox.css';
+import './TaskPage.css';
 import TasksPage from "./TasksPage.js";
 import HomePage from "../HomePage/HomePage.js";
 import Signup from "./SignUp.js";

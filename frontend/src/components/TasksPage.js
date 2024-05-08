@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import './Checkbox.css';
+import './TaskPage.css';
 import './Component.css';
 import './App.js'
 
-const Checkbox = (props) => {
+const Checkbox = ({ value, onChange, label }) => {
     return (
-        <label className="checkbox-container">
-            <input type="checkbox" checked={props.value} onChange={() => props.setValue(!props.value)} />
-            {props.label}
-        </label>
+        <div className="checkbox-container">
+            <input type="checkbox" checked={value} onChange={onChange} />
+            <label className="checkbox-label">
+                {label}
+            </label>
+        </div>
     );
-}
+  };
 
 function TasksPage() {
     const [tasks, setTasks] = useState([]);
     const [checkboxValues, setCheckboxValues] = useState([false, false, false]);
+    const [completed, setCompleted] = useState(false);
 
     useEffect(() => {
         fetch('http://localhost:3000/api/tasks')
@@ -26,28 +29,57 @@ function TasksPage() {
                     console.error('Not enough tasks received:', data);
                 }
             })
-            .catch(error => console.error('Error fetching tasks:', error));
+            .catch(error => console.error('Error fetching tasks:', error))
     }, []);
 
     // Define labels based on fetched tasks or use default values
-    const label = tasks.length >= 1 ? tasks[0].description : "Complete task 1";
-    const label2 = tasks.length >= 2 ? tasks[1].description : "Complete task 2";
-    const label3 = tasks.length >= 3 ? tasks[2].description : "Complete task 3";
+    const task1 = tasks.length >= 1 ? tasks[0].description : "Recycle five pieces of trash";
+    const task2 = tasks.length >= 2 ? tasks[1].description : "Listen to 30 min. of an eco-friendly podcast";
+    const task3 = tasks.length >= 3 ? tasks[2].description : "Use public transportation";
 
     const handleCheckboxChange = (index) => {
         const updatedValues = [...checkboxValues];
         updatedValues[index] = !updatedValues[index];
         setCheckboxValues(updatedValues);
+        if (updatedValues[0] == true && updatedValues[1] == true && updatedValues[2] == true) {
+          setCompleted(true);
+        }
+        else {
+            setCompleted(false);
+        }
     };
 
     return (
-        <div className="App">
-            <h1 className='Sub-Title'>Fun Tasks</h1>
-            <ul className='checkbox'>
-                <Checkbox value={checkboxValues[0]} setValue={() => handleCheckboxChange(0)} label={label} />
-                <Checkbox value={checkboxValues[1]} setValue={() => handleCheckboxChange(1)} label={label2} />
-                <Checkbox value={checkboxValues[2]} setValue={() => handleCheckboxChange(2)} label={label3} />
-            </ul>
+        <div>
+        <div className="goals-container">
+            <h1 className='title'>Daily Goals</h1>
+            <form>
+                <fieldset>
+                    <Checkbox
+                        value={checkboxValues[0]}
+                        onChange={() => handleCheckboxChange(0)}
+                        label={task1}
+                    />
+                    <Checkbox
+                        value={checkboxValues[1]}
+                        onChange={() => handleCheckboxChange(1)}
+                        label={task2}
+                    />
+                    <Checkbox
+                        value={checkboxValues[2]}
+                        onChange={() => handleCheckboxChange(2)}
+                        label={task3}
+                    />
+                </fieldset>
+            </form>
+        </div>
+        {completed && (
+            <div className="celebration">
+            <h2>Congratulations! You completed all your tasks!</h2>
+            <div className="earth-animation">
+            </div>
+            </div>
+        )}
         </div>
     );
 }
