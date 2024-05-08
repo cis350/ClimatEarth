@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #2ecc71; /* Green background */
+    background-color: #1b7034;
     padding: 1rem;
     display: flex;
     justify-content: space-between;
@@ -14,23 +14,24 @@
     font-weight: bolder;
   }
   
-  .navbar-nav {
-    display: flex;
-    list-style: none;
-  }
+.navbar-nav {
+  display: flex;
+  list-style: none;
+}
   
-  .nav-item {
-    margin-right: 1rem;
-  }
+.nav-item {
+  margin-right: 1rem;
+}
   
-  .nav-link {
-    color: white; /* White text color */
-    text-decoration: none;
-    font-size: 1rem;
-  }
-  
-  .nav-link:hover {
-    text-decoration: underline;
-  }
+.nav-link {
+  color: black; /* White text color */
+  text-decoration: none;
+  font-size: 1rem;
+}
+    
+.nav-link:hover {
+  text-decoration: underline;
+  color: #1e9e44;
+}
 
   

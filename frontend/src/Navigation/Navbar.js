@@ -3,7 +3,7 @@ import "./Navbar.css"
 
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg">
       <a className="navbar-brand" href="/">
         ClimatEarth
       </a>
@@ -19,21 +19,25 @@ const Navbar = () => {
         <span className="navbar-toggler-icon"></span>
       </button>
 
-      <div className="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul className="navbar-nav">
-          <li className="nav-item active">
+      <ul className="navbar-nav">
+          <li className="nav-item">
             <a className="nav-link" href="/">
-              Home Page <span className="sr-only"></span>
+              Home
             </a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="/tasks">
-              Tasks
+              Daily Goals
             </a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="/carbon">
-              Carbon
+              Carbon Footprint Calculator
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/carbon">
+              Environmental News
             </a>
           </li>
           <li className="nav-item">
@@ -41,13 +45,7 @@ const Navbar = () => {
               Login
             </a>
           </li>
-          <li className="nav-item">
-            <a className="nav-link" href="/signup">
-              Sign Up
-            </a>
-          </li>
-        </ul>
-      </div>
+      </ul>
     </nav>
   );
 };
