@@ -217,6 +217,38 @@ webapp.put('/user/:id', async (req, res) => {
   }
 });
 
+/**
+ * route implementation POST /addName
+ * add tasks a name for user (done in signup but just if need to change)
+ */
+webapp.post('/addName', async (req, resp) => {
+  try {
+    // parse the body
+    const db = await getDB();
+    const { username, name1 } = req.body;
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+
+    if (!user) {
+        return resp.status(404).json({ message: 'User not found' });
+    }
+
+    // Update user document to add completedTasks field
+    const result = await db.collection('users').updateOne(
+      { _id: user._id },
+      { $set: { name: name1 } }
+    );
+    if (result.modifiedCount === 1) {
+      return resp.status(200).json({ message: 'Name added successfully' });
+    } else {
+      return resp.status(500).json({ message: 'Failed to add name' });
+    }
+  } catch (error) {
+    console.error('Error adding name:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 // API route to get three random tasks
 webapp.get('/api/tasks', (req, res) => {
@@ -308,38 +340,6 @@ webapp.post('/removeTask', async (req, resp) => {
 });
 
 /**
- * route implementation POST /addName
- * add tasks a name for user (done in signup but just if need to change)
- */
-webapp.post('/addName', async (req, resp) => {
-  try {
-    // parse the body
-    const db = await getDB();
-    const { username, name1 } = req.body;
-    // Find the user by username
-    const user = await db.collection('users').findOne({ username });
-
-    if (!user) {
-        return resp.status(404).json({ message: 'User not found' });
-    }
-
-    // Update user document to add completedTasks field
-    const result = await db.collection('users').updateOne(
-      { _id: user._id },
-      { $set: { name: name1 } }
-    );
-    if (result.modifiedCount === 1) {
-      return resp.status(200).json({ message: 'Name added successfully' });
-    } else {
-      return resp.status(500).json({ message: 'Failed to add name' });
-    }
-  } catch (error) {
-    console.error('Error adding name:', error);
-    return resp.status(500).json({ message: 'Internal server error' });
-  }
-});
-
-/**
  * route implementation POST /addTasks
  * add tasks user has completed
  */
@@ -380,6 +380,31 @@ webapp.post('/addTask', async (req, resp) => {
   }
 });
 
+/**
+ * route implementation GET /getScore/:username
+ * get score of user for leader board
+ */
+webapp.get('/getScore/:username', async (req, resp) => {
+  try {
+    const db = await getDB();
+    const { username } = req.params;
+    
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+
+    if (!user) {
+        return resp.status(404).json({ message: 'User not found' });
+    }
+
+    // Get the score (length of the completedTasks array)
+    const score = user.completedTasks.length;
+
+    return resp.status(200).json({ score });
+  } catch (error) {
+    console.error('Error getting score:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
 // export the webapp
