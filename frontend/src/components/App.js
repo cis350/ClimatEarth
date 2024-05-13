@@ -8,6 +8,7 @@ import TasksPage from "./TasksPage.js";
 import HomePage from "../HomePage/HomePage.js";
 import Signup from "./SignUp.js";
 import Carbon from "./Carbon.js";
+import Leaderboard from './Leaderboard.js';
 
 //import React, { useState } from "react";
 
@@ -22,6 +23,7 @@ const App = () => {
 		{currentPage === "/" && <HomePage />}
 		{currentPage === "/tasks" && <TasksPage />}
 		{currentPage === "/carbon" && <Carbon />}
+		{currentPage === "/Leaderboard" && <Leaderboard />}
 		{currentPage === "/login" && <Login />}
 		{currentPage === "/signup" && <Signup />}
 	</>
