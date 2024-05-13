@@ -231,14 +231,19 @@ webapp.get('/api/tasks', (req, res) => {
 });
 
 /**
- * route implementation POST /user
- * validate the session
+ * route implementation POST /setTasks
+ * set the tasks user has completed
  */
-webapp.post('/addTasks', async (req, resp) => {
+webapp.post('/setTasks', async (req, resp) => {
   try {
     // parse the body
     const db = await getDB();
     const { username, tasks } = req.body;
+
+    if (!tasks) {
+      return resp.status(400).json({ message: 'Tasks cannot be null' });
+    }
+
     // Find the user by username
     const user = await db.collection('users').findOne({ username });
 
@@ -252,16 +257,60 @@ webapp.post('/addTasks', async (req, resp) => {
       { $set: { completedTasks: tasks } }
     );
     if (result.modifiedCount === 1) {
-      return resp.status(200).json({ message: 'Completed tasks added successfully' });
+      return resp.status(200).json({ message: 'Completed tasks set successfully' });
     } else {
-      return resp.status(500).json({ message: 'Failed to add completed tasks' });
+      return resp.status(500).json({ message: 'Failed to set completed tasks' });
     }
   } catch (error) {
-    console.error('Error adding completed tasks:', error);
+    console.error('Error setting completed tasks:', error);
     return resp.status(500).json({ message: 'Internal server error' });
   }
 });
 
+/**
+ * route implementation POST /removeTasks
+ * remove tasks from completed
+ */
+webapp.post('/removeTask', async (req, resp) => {
+  try {
+    // parse the body
+    const db = await getDB();
+    const { username, task } = req.body;
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+
+    if (!task) {
+      return resp.status(400).json({ message: 'Task cannot be null' });
+    }
+
+    if (!user) {
+        return resp.status(404).json({ message: 'User not found' });
+    }
+
+    // Remove the task from the tasks array
+    const updatedTasks = user.completedTasks.filter(task => task !== task);
+
+    // Update user document to remove the task
+    const result = await db.collection('users').updateOne(
+      { _id: user._id },
+      { $set: { completedTasks: updatedTasks } }
+    );
+
+    if (result.modifiedCount === 1) {
+      return resp.status(200).json({ message: 'Task removed successfully' });
+    } else {
+      return resp.status(500).json({ message: 'Failed to remove task' });
+    }
+  } catch (error) {
+    console.error('Error removing completed tasks:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+/**
+ * route implementation POST /addName
+ * add tasks a name for user (done in signup but just if need to change)
+ */
 webapp.post('/addName', async (req, resp) => {
   try {
     // parse the body
@@ -289,6 +338,48 @@ webapp.post('/addName', async (req, resp) => {
     return resp.status(500).json({ message: 'Internal server error' });
   }
 });
+
+/**
+ * route implementation POST /addTasks
+ * add tasks user has completed
+ */
+webapp.post('/addTask', async (req, resp) => {
+  try {
+    // Parse the body
+    const db = await getDB();
+    const { username, task } = req.body;
+
+    if (!task) {
+      return resp.status(400).json({ message: 'Task cannot be null' });
+    }
+    
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+
+    if (!user) {
+        return resp.status(404).json({ message: 'User not found' });
+    }
+
+    // Add the task to the completedTasks array
+    const updatedTasks = [...user.completedTasks, task];
+
+    // Update user document to add the task
+    const result = await db.collection('users').updateOne(
+      { _id: user._id },
+      { $set: { completedTasks: updatedTasks } }
+    );
+
+    if (result.modifiedCount === 1) {
+      return resp.status(200).json({ message: 'Task added successfully' });
+    } else {
+      return resp.status(500).json({ message: 'Failed to add task' });
+    }
+  } catch (error) {
+    console.error('Error adding task:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 
 // export the webapp
