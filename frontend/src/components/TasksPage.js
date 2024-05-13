@@ -60,12 +60,12 @@ function TasksPage() {
                 });
                 console.log(response);
             } else {
-                // // Call the removeTask endpoint 
-                // const response = await axios.post(rootUrl + 'removeTask', {
-                //     username: 'testuser1', // Replace with the actual username
-                //     task: task.id
-                // });
-                // console.log(response);
+                // Call the removeTask endpoint 
+                const response = await axios.post(rootUrl + 'removeTask', {
+                    username: 'testuser1', // Replace with the actual username
+                    task: task.id
+                });
+                console.log(response);
             }
         } catch (error) {
             console.error('Error:', error);

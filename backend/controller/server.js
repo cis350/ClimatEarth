@@ -319,14 +319,22 @@ webapp.post('/removeTask', async (req, resp) => {
         return resp.status(404).json({ message: 'User not found' });
     }
 
-    // Remove the task from the tasks array
-    const updatedTasks = user.completedTasks.filter(task => task !== task);
+    // Find the index of the most recent occurrence of the task ID
+    const indexToRemove = user.completedTasks.lastIndexOf(task);
+
+    // If the task ID exists in the array, remove it
+    if (indexToRemove !== -1) {
+      user.completedTasks.splice(indexToRemove, 1);
+    } else {
+      return resp.status(400).json({ message: 'Task not found' });
+    }
 
     // Update user document to remove the task
     const result = await db.collection('users').updateOne(
       { _id: user._id },
-      { $set: { completedTasks: updatedTasks } }
+      { $set: { completedTasks: user.completedTasks } }
     );
+
 
     if (result.modifiedCount === 1) {
       return resp.status(200).json({ message: 'Task removed successfully' });
