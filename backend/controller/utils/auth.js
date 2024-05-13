@@ -22,10 +22,10 @@ const jwtBlacklist = new Set();
  * @param {*} userid
  * @returns the token
  */
-const authenticateUser = (username) => {
+const authenticateUser = (username, password) => {
   try {
     console.log("In authenticateUser");
-    const token = jwt.sign({ username }, "123", { expiresIn: '120s' });
+    const token = jwt.sign({ username, password }, "123", { expiresIn: '120s' });
     console.log('token', token);
     return token;
   } catch (err) {
@@ -49,12 +49,16 @@ const verifyUser = async (token) => {
 
     // decoded contains the paylod of the token
     const decoded = jwt.verify(token, "123");
-    console.log('payload', decoded);
+    const { username, password } = decoded;
+  
     // check that the payload contains a valid user
-    const user = await getUserByUName(decoded.username);
+    const user = await getUserByUName(username);
     if (!user) {
       // user is undefined
       return 2;
+    }
+    if (user.password !== password) {
+      return 3; // Invalid password
     }
     return 0; // user verified - success
   } catch (err) {
