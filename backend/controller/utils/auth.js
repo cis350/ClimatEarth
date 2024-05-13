@@ -45,10 +45,10 @@ const verifyUser = async (token) => {
     if (jwtBlacklist.has(token)) {
       return 3;
     }
-    //never checks password?
 
     // decoded contains the paylod of the token
     const decoded = jwt.verify(token, "123");
+    // checks password
     const { username, password } = decoded;
   
     // check that the payload contains a valid user
