@@ -257,6 +257,17 @@ webapp.get('/api/tasks', (req, res) => {
   }
 });
 
+// API route for the leaderboard
+webapp.get('/api/leaderboard', async (req, res) => {
+  try {
+    const leaderboardData = await getLeaderboard();
+    res.json(leaderboardData);
+  } catch (error) {
+    console.error("Error fetching leaderboard:", error);
+    res.status(500).send("An error occurred while fetching leaderboard");
+  }
+});
+
 
 // export the webapp
 module.exports = webapp;
