@@ -6,14 +6,23 @@ import "./Component.css"
 function Signup() {
   let username; // will store the username. this value is destroyed after each rendering
   let password; // will store the password
+  let name; // will store the password
   let confirmPassword;
   const usernameRef = useRef(''); // this  value will persist between rendering
+  const nameRef = useRef(''); // this  value will persist between rendering
 
   // input change event handler
   const handleUsernameChange = (e) => {
     username = e.target.value; // update local variable
     usernameRef.current = e.target.value; // update reference
     console.log('value', username);
+  };
+
+  // input change event handler
+  const handleNameChange = (e) => {
+    name = e.target.value; // update local variable
+    nameRef.current = e.target.value; // update reference
+    console.log('value', name);
   };
 
    // input change event handler
@@ -36,7 +45,7 @@ function Signup() {
     }
 
     // Call signup function
-    const success = await signupUser(username, password);
+    const success = await signupUser(username, password, name);
 
     if (success) {
       alert("Signup successful!");
@@ -55,6 +64,13 @@ function Signup() {
             {' '}
             Username:
           <CreateComponent type={'input'} eventHandler={handleUsernameChange} text={'username'} />
+          </label>
+      </div>
+      <div>
+          <label>
+            {' '}
+            Name:
+          <CreateComponent type={'input'} eventHandler={handleNameChange} text={'name'} />
           </label>
       </div>
       <div>
