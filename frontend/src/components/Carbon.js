@@ -8,6 +8,7 @@ function CarbonFootprintCalculator() {
     const [gasUsage, setGasUsage] = useState('');
     const [flightDistance, setFlightDistance] = useState('');
     const [carMileage, setCarMileage] = useState('');
+    const [carMiles, setCarMiles] = useState('');
     const [carbonFootprint, setCarbonFootprint] = useState(0);
     const [isCalculating, setIsCalculating] = useState(false);
   
@@ -16,7 +17,12 @@ function CarbonFootprintCalculator() {
       setIsCalculating(true);
       setTimeout(() => {
         // Perform calculation based on user inputs
-        const carbonFootprintValue = carMileage + flightDistance + gasUsage + electricityUsage + flightDistance; 
+        const electricityUsageTotal = electricityUsage * 0.5; 
+        const gasUsageTotal = gasUsage * 0.2;
+        const flightDistanceTotal = flightDistance * 0.2; 
+        const carMileageTotal = (carMiles / carMileage) * 20 * (1/ 2.20462);
+        const carbonFootprintValue = carMileageTotal + flightDistanceTotal + gasUsageTotal + 
+        electricityUsageTotal; 
         setCarbonFootprint(carbonFootprintValue);
         setIsCalculating(false);
       }, 500);
@@ -60,6 +66,15 @@ function CarbonFootprintCalculator() {
               value={carMileage} 
               onChange={(e) => setCarMileage(e.target.value)}
               placeholder="Enter car mileage" />
+            </label>
+          </div>
+          <div className="input-group">
+            <label>
+              Car Miles (miles travelled per month):
+              <input type="number" 
+              value={carMiles} 
+              onChange={(e) => setCarMiles(e.target.value)}
+              placeholder="Enter car miles" />
             </label>
           </div>
           <div className="button-container">
