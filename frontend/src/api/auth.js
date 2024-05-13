@@ -39,11 +39,12 @@ export const logoutUser = async () => {
     }
 }
 
-export const signupUser = async (username, password) => {
+export const signupUser = async (username, password, name) => {
     try {
         const response = await axios.post(`${rootURL}/signup`, {
             username: username,
-            password: password
+            password: password, 
+            name: name
         });
         // Assuming the API returns a success status code (e.g., 201)
         return response.status === 201;

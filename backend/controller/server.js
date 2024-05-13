@@ -9,7 +9,6 @@ const express = require('express');
 
 const { getRandomTasks } = require('./utils/tasks');
 
-
 // import the cors -cross origin resource sharing- module
 const cors = require('cors');
 
@@ -19,6 +18,7 @@ webapp.use(express.json());
 
 // import authentication functions
 const { authenticateUser, verifyUser, blacklistJWT } = require('./utils/auth');
+
 // enable cors
 webapp.use(cors());
 
@@ -28,11 +28,11 @@ webapp.use(express.urlencoded({ extended: true }));
 // import the db function
 const users = require('../model/users');
 
-const { connect } = require('../model/dbUtils');
+const { connect, getDB } = require('../model/dbUtils');
 
 // Call connect() function to establish connection
 connect()
-  .then(() => {
+  .then(async () => {
     // Connection established, start your server or perform other operations
     webapp.listen(() => {
       console.log(`Server is running on port`);
@@ -142,40 +142,12 @@ webapp.get('/user/:id', async (req, res) => {
 });
 
 /**
- * route implementation POST /user
- * validate the session
- */
-// webapp.post('/user', async (req, resp) => {
-//   // parse the body
-//   if (!req.body.username || !req.body.password) {
-//     resp.status(404).json({ message: 'missing name, email or major in the body' });
-//     return;
-//   }
-//   // verify the session
-//   if (await verifyUser(req.headers.authorization)) {
-//     try {
-//       // create the new user object
-//       const newUser = {
-//         username: req.body.username,
-//         password: req.body.password,
-//       };
-//       const result = await users.addUser(newUser);
-//       resp.status(201).json({ data: { id: result } });
-//     } catch (err) {
-//       resp.status(400).json({ message: 'There was an error' });
-//     }
-//   } else {
-//     resp.status(401).json({ message: 'Failed Authentication' });
-//   }
-// });
-
-/**
  * route implementation POST /signup
  * Register a new user
  */
 webapp.post('/signup', async (req, resp) => {
   //Parse the body
-  if (!req.body.username || !req.body.password) {
+  if (!req.body.username || !req.body.password || !req.body.name) {
     resp.status(400).json({ message: 'Missing username, password, or email in the body' });
     return;
   }
@@ -186,6 +158,7 @@ webapp.post('/signup', async (req, resp) => {
     const newUser = {
       username: req.body.username,
       password: req.body.password,
+      name: req.body.name,
     };
 
     console.log("Before adding user");
@@ -244,6 +217,38 @@ webapp.put('/user/:id', async (req, res) => {
   }
 });
 
+/**
+ * route implementation POST /addName
+ * add tasks a name for user (done in signup but just if need to change)
+ */
+webapp.post('/addName', async (req, resp) => {
+  try {
+    // parse the body
+    const db = await getDB();
+    const { username, name1 } = req.body;
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+
+    if (!user) {
+        return resp.status(404).json({ message: 'User not found' });
+    }
+
+    // Update user document to add completedTasks field
+    const result = await db.collection('users').updateOne(
+      { _id: user._id },
+      { $set: { name: name1 } }
+    );
+    if (result.modifiedCount === 1) {
+      return resp.status(200).json({ message: 'Name added successfully' });
+    } else {
+      return resp.status(500).json({ message: 'Failed to add name' });
+    }
+  } catch (error) {
+    console.error('Error adding name:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 // API route to get three random tasks
 webapp.get('/api/tasks', (req, res) => {
@@ -257,6 +262,7 @@ webapp.get('/api/tasks', (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 // API route for the leaderboard
 webapp.get('/api/leaderboard', async (req, res) => {
   try {
@@ -265,6 +271,157 @@ webapp.get('/api/leaderboard', async (req, res) => {
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
     res.status(500).send("An error occurred while fetching leaderboard");
+=======
+/**
+ * route implementation POST /setTasks
+ * set the tasks user has completed
+ */
+webapp.post('/setTasks', async (req, resp) => {
+  try {
+    // parse the body
+    const db = await getDB();
+    const { username, tasks } = req.body;
+
+    if (!tasks) {
+      return resp.status(400).json({ message: 'Tasks cannot be null' });
+    }
+
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+
+    if (!user) {
+        return resp.status(404).json({ message: 'User not found' });
+    }
+
+    // Update user document to add completedTasks field
+    const result = await db.collection('users').updateOne(
+      { _id: user._id },
+      { $set: { completedTasks: tasks } }
+    );
+    if (result.modifiedCount === 1) {
+      return resp.status(200).json({ message: 'Completed tasks set successfully' });
+    } else {
+      return resp.status(500).json({ message: 'Failed to set completed tasks' });
+    }
+  } catch (error) {
+    console.error('Error setting completed tasks:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+/**
+ * route implementation POST /removeTasks
+ * remove tasks from completed
+ */
+webapp.post('/removeTask', async (req, resp) => {
+  try {
+    // parse the body
+    const db = await getDB();
+    const { username, task } = req.body;
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+
+    if (!task) {
+      return resp.status(400).json({ message: 'Task cannot be null' });
+    }
+
+    if (!user) {
+        return resp.status(404).json({ message: 'User not found' });
+    }
+
+    // Find the index of the most recent occurrence of the task ID
+    const indexToRemove = user.completedTasks.lastIndexOf(task);
+
+    // If the task ID exists in the array, remove it
+    if (indexToRemove !== -1) {
+      user.completedTasks.splice(indexToRemove, 1);
+    } else {
+      return resp.status(400).json({ message: 'Task not found' });
+    }
+
+    // Update user document to remove the task
+    const result = await db.collection('users').updateOne(
+      { _id: user._id },
+      { $set: { completedTasks: user.completedTasks } }
+    );
+
+
+    if (result.modifiedCount === 1) {
+      return resp.status(200).json({ message: 'Task removed successfully' });
+    } else {
+      return resp.status(500).json({ message: 'Failed to remove task' });
+    }
+  } catch (error) {
+    console.error('Error removing completed tasks:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+/**
+ * route implementation POST /addTasks
+ * add tasks user has completed
+ */
+webapp.post('/addTask', async (req, resp) => {
+  try {
+    // Parse the body
+    const db = await getDB();
+    const { username, task } = req.body;
+
+    if (!task) {
+      return resp.status(400).json({ message: 'Task cannot be null' });
+    }
+    
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+
+    if (!user) {
+        return resp.status(404).json({ message: 'User not found' });
+    }
+
+    // Add the task to the completedTasks array
+    const updatedTasks = [...user.completedTasks, task];
+
+    // Update user document to add the task
+    const result = await db.collection('users').updateOne(
+      { _id: user._id },
+      { $set: { completedTasks: updatedTasks } }
+    );
+
+    if (result.modifiedCount === 1) {
+      return resp.status(200).json({ message: 'Task added successfully' });
+    } else {
+      return resp.status(500).json({ message: 'Failed to add task' });
+    }
+  } catch (error) {
+    console.error('Error adding task:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+/**
+ * route implementation GET /getScore/:username
+ * get score of user for leader board
+ */
+webapp.get('/getScore/:username', async (req, resp) => {
+  try {
+    const db = await getDB();
+    const { username } = req.params;
+    
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+
+    if (!user) {
+        return resp.status(404).json({ message: 'User not found' });
+    }
+
+    // Get the score (length of the completedTasks array)
+    const score = user.completedTasks.length;
+
+    return resp.status(200).json({ score });
+  } catch (error) {
+    console.error('Error getting score:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+>>>>>>> 110034ea1631fbde3b788a07a24c7ca108cbcc36
   }
 });
 

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './TaskPage.css';
 import './Component.css';
 import './App.js'
+import axios from 'axios';
+const rootUrl = 'http://localhost:5050/';
 
 const Checkbox = ({ value, onChange, label }) => {
     return (
@@ -37,15 +39,36 @@ function TasksPage() {
     const task2 = tasks.length >= 2 ? tasks[1].description : "Listen to 30 min. of an eco-friendly podcast";
     const task3 = tasks.length >= 3 ? tasks[2].description : "Use public transportation";
 
-    const handleCheckboxChange = (index) => {
+    const handleCheckboxChange = async (index, task) => {
         const updatedValues = [...checkboxValues];
         updatedValues[index] = !updatedValues[index];
         setCheckboxValues(updatedValues);
-        if (updatedValues[0] == true && updatedValues[1] == true && updatedValues[2] == true) {
+        if (updatedValues[0] === true && updatedValues[1] === true && updatedValues[2] === true) {
           setCompleted(true);
         }
         else {
             setCompleted(false);
+        }
+        console.log(task);
+
+        try {
+            if (updatedValues[index]) {
+                // Call the addTask endpoint
+                const response = await axios.post(rootUrl + 'addTask', {
+                    username: 'testuser1', // Replace with the actual username
+                    task: task.id
+                });
+                console.log(response);
+            } else {
+                // Call the removeTask endpoint 
+                const response = await axios.post(rootUrl + 'removeTask', {
+                    username: 'testuser1', // Replace with the actual username
+                    task: task.id
+                });
+                console.log(response);
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
     };
 
@@ -57,29 +80,39 @@ function TasksPage() {
                 <fieldset>
                     <Checkbox
                         value={checkboxValues[0]}
-                        onChange={() => handleCheckboxChange(0)}
+                        onChange={() => handleCheckboxChange(0, tasks[0])}
                         label={task1}
                     />
                     <Checkbox
                         value={checkboxValues[1]}
-                        onChange={() => handleCheckboxChange(1)}
+                        onChange={() => handleCheckboxChange(1, tasks[1])}
                         label={task2}
                     />
                     <Checkbox
                         value={checkboxValues[2]}
-                        onChange={() => handleCheckboxChange(2)}
+                        onChange={() => handleCheckboxChange(2, tasks[2])}
                         label={task3}
                     />
                 </fieldset>
             </form>
+            {completed && (
+                <div className="celebration">
+                <h2>Congratulations! You completed all your tasks!</h2>
+                <div className="earth-animation">
+                </div>
+                </div>
+            )}
         </div>
-        {completed && (
-            <div className="celebration">
-            <h2>Congratulations! You completed all your tasks!</h2>
-            <div className="earth-animation">
-            </div>
-            </div>
-        )}
+        <div className="goals-container">
+            <h1 className='title'>Completed Goals</h1>
+            <form>
+                <fieldset>
+                <ul>
+                    
+                </ul>
+                </fieldset>
+            </form>
+        </div>
         </div>
     );
 }

@@ -23,7 +23,7 @@ const App = () => {
 		{currentPage === "/" && <HomePage />}
 		{currentPage === "/tasks" && <TasksPage />}
 		{currentPage === "/carbon" && <Carbon />}
-		{currentPage === "/Leaderboard" && <Leaderboard />}
+		{currentPage === "/leaderboard" && <Leaderboard />}
 		{currentPage === "/login" && <Login />}
 		{currentPage === "/signup" && <Signup />}
 	</>
