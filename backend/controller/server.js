@@ -48,9 +48,12 @@ connect()
   });
 
 // root endpoint route
-webapp.get('/', (_req, resp) => {
+/* webapp.get('/', (_req, resp) => {
   resp.json({ message: 'hello CIS3500 SP24!!!' });
-});
+}); */
+webapp.get('/', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/build/index.html'))
+})
 
 /**
  * Login endpoint
