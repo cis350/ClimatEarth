@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage",
-    "start": "node index.js",
-    "start:backend": "node index.js"
+    "start": "node index.js"
   },
   "keywords": [
     "mern",
