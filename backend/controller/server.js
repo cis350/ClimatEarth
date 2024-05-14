@@ -9,6 +9,8 @@ const express = require('express');
 
 const { getRandomTasks, getTaskById } = require('./utils/tasks');
 
+const { getTopUsers } = require('./utils/leaderboard');
+
 // import the cors -cross origin resource sharing- module
 const cors = require('cors');
 
@@ -481,7 +483,7 @@ webapp.get('/getScore/:username', async (req, resp) => {
 // API route for the leaderboard
 webapp.get('/api/leaderboard', async (req, res) => {
   try {
-    const leaderboardData = await getLeaderboard();
+    const leaderboardData = await getTopUsers();
     res.json(leaderboardData);
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
