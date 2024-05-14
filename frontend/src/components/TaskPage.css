@@ -42,14 +42,17 @@ legend {
 .checkbox-container input[type="checkbox"] {
   width: 20px;
   height: 20px;
+  flex: 0 0 20px;
   margin-right: 10px;
   accent-color: #4CAF50;
+  box-sizing: border-box;
 }
 
 .checkbox-container label {
   font-size: 16px;
   color: black;
   align-items: center;  
+  display: block;
 }
 
 .celebration {
