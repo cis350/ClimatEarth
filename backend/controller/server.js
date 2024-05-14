@@ -24,7 +24,7 @@ webapp.set('trust proxy', true);
 const { authenticateUser, verifyUser, blacklistJWT, updateCalculation } = require('./utils/auth');
 
 // enable cors
-webapp.use(cors());
+webapp.use(cors( {origin: 'http://localhost:3000'} ));
 
 // configure express to parse request bodies
 webapp.use(express.urlencoded({ extended: true }));
@@ -519,12 +519,6 @@ webapp.post('/carbon', async (req, resp) => {
   console.error('Error adding footprint:', error);
   return resp.status(500).json({ message: 'Internal server error' });
 }
-});
-
-const path = require('path')
-webapp.use(express.static(path.join(__dirname, '../../frontend/build')));
-webapp.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../frontend/build/index.html'));
 });
 
 // export the webapp
