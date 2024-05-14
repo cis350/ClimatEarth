@@ -91,7 +91,7 @@ function TasksPage() {
         const updatedValues = [...checkboxValues];
         updatedValues[index] = !updatedValues[index];
         setCheckboxValues(updatedValues);
-        if (updatedValues[0] == true && updatedValues[1] == true && updatedValues[2] == true) {
+        if (updatedValues[0] === true && updatedValues[1] === true && updatedValues[2] === true) {
           setCompleted(true);
         }
         else {
