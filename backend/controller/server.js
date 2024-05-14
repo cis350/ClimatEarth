@@ -420,6 +420,32 @@ webapp.post('/addTask', async (req, resp) => {
 });
 
 /**
+ * route implementation GET /getCompletedTasks
+ * get tasks ids of tasks the user has completed
+ */
+webapp.get('/getCompletedTasks/:username', async (req, resp) => {
+  try {
+    const db = await getDB();
+    const { username } = req.params;
+
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+
+    if (!user) {
+      return resp.status(404).json({ message: 'User not found' });
+    }
+
+    // Retrieve completed tasks from the user document
+    const completedTasks = user.completedTasks;
+
+    return resp.status(200).json({ completedTasks });
+  } catch (error) {
+    console.error('Error getting completed tasks:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+/**
  * route implementation GET /getScore/:username
  * get score of user for leader board
  */
