@@ -32,6 +32,11 @@ const App = () => {
 			<Route path='/:username/carbon' element={<Carbon />} />
 			<Route path='/:username/tasks' element={<TasksPage />} />
 			<Route path='/:username/' element={<HomePage />} />
+			<Route path='/' element={<HomePage />} />
+			<Route path='/carbon' element={<Carbon />} />
+			<Route path='/tasks' element={<TasksPage />} />
+			<Route path='/leaderboard' element={<Leaderboard />} />
+			<Route path='/login' element={<Login />} />
 		</Routes>
 	</>
 	);
