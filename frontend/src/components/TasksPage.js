@@ -3,7 +3,7 @@ import './TaskPage.css';
 import './Component.css';
 import './App.js'
 import axios from 'axios';
-const rootUrl = '../api/utils.js';
+const rootUrl = 'http://localhost:5050/';
 
 const Checkbox = ({ value, onChange, label }) => {
     return (
