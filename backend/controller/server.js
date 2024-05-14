@@ -47,7 +47,6 @@ connect()
     console.error('Error connecting to database:', err);
   });
 
-
 // root endpoint route
 webapp.get('/', (_req, resp) => {
   resp.json({ message: 'hello CIS3500 SP24!!!' });
@@ -522,6 +521,10 @@ webapp.post('/carbon', async (req, resp) => {
 }
 });
 
+app.use(express.static(path.join(__dirname, '../../frontend/build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/build/index.html'));
+});
 
 // export the webapp
 module.exports = webapp;
