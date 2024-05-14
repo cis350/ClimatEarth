@@ -414,6 +414,36 @@ webapp.get('/getScore/:username', async (req, resp) => {
   }
 });
 
+/**
+ * Carbon calculator endpoint
+ * The name is used to add footprint to user
+ */
+webapp.post('/carbon', async (req, resp) => {
+  // parse
+  try {
+    const db = await getDB();
+    const { username, footprint } = req.body;
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+    if (!user) {
+      return resp.status(404).json({ message: 'User not found' });
+  }
+  // Update user document to add completedTasks field
+  const result = await db.collection('users').updateOne(
+    { _id: user._id },
+    { $set: { footprint: footprint } }
+  );
+  if (result.modifiedCount === 1) {
+    return resp.status(200).json({ message: 'Footprint added successfully' });
+  } else {
+    return resp.status(500).json({ message: 'Failed to add footprint' });
+  }
+} catch (error) {
+  console.error('Error adding footprint:', error);
+  return resp.status(500).json({ message: 'Internal server error' });
+}
+});
+
 
 // export the webapp
 module.exports = webapp;
