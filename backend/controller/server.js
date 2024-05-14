@@ -521,8 +521,9 @@ webapp.post('/carbon', async (req, resp) => {
 }
 });
 
-app.use(express.static(path.join(__dirname, '../../frontend/build')));
-app.get('*', (req, res) => {
+const path = require('path')
+webapp.use(express.static(path.join(__dirname, '../../frontend/build')));
+webapp.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/build/index.html'));
 });
 
