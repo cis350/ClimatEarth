@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import './Component.css';
 import './App.js'
 import axios from 'axios';
@@ -14,8 +14,23 @@ function CarbonFootprintCalculator() {
     const [carbonFootprint, setCarbonFootprint] = useState(0);
     const [isCalculating, setIsCalculating] = useState(false);
     const [carbonFootprintValue, setCarbonFootprintValue] = useState(0);
+    const [userData, setUserData] = useState(null);
 
+    // Fetch user data on component mount
+    useEffect(() => {
+      const fetchUserData = async () => {
+          try {
+              const username = localStorage.getItem('username');
+              console.log(username);
+              const response = await axios.get(`${rootUrl}getFootprint/${username}`);
+              setUserData(response.data);
+          } catch (error) {
+              console.error('Error fetching user data:', error);
+          }
+      };
 
+      fetchUserData();
+  }, []);
   
     // Function to handle calculation
     const calculateCarbonFootprint = async () => {
@@ -33,9 +48,9 @@ function CarbonFootprintCalculator() {
       }, 500);
       try {
         // Call the carbon endpoint
-        const token = localStorage.getItem('app-token');
+        const username = localStorage.getItem('username');
         const response = await axios.post(rootUrl + 'carbon', {
-          token: token,
+          username: username,
           footprint: carbonFootprintValue
         });
         console.log(response);
@@ -49,6 +64,9 @@ function CarbonFootprintCalculator() {
     return (
       <div className="calculator-container">
         <h2 className="title">Carbon Footprint Calculator</h2>
+        {userData && (
+                <p>Your previously calculated footprint was: {userData.footprint} tons CO2</p>
+            )}
         <form>
           <div className="input-group">
             <label>
