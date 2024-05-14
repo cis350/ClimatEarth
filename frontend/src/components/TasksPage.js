@@ -20,6 +20,35 @@ function TasksPage() {
     const [tasks, setTasks] = useState([]);
     const [checkboxValues, setCheckboxValues] = useState([false, false, false]);
     const [completed, setCompleted] = useState(false);
+    const [completedTasks, setCompletedTasks] = useState([]);
+    const [score, setScore] = useState([]);
+
+    const fetchCompletedTasks = async (username) => {
+        try {
+            const response = await fetch(`${rootUrl}getCompletedTasks/${username}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch completed tasks');
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching completed tasks:', error);
+            throw error;
+        }
+    };
+        
+    const fetchTaskDetails = async (taskIds) => {
+        const tasks = [];
+        for (const taskId of taskIds) {
+          try {
+            const response = await axios.get(`http://localhost:3000/api/tasks/${taskId}`);
+            tasks.push(response.data);
+          } catch (error) {
+            console.error(`Error fetching task details for ID ${taskId}:`, error);
+          }
+        }
+        return tasks;
+    };
 
     useEffect(() => {
         fetch('http://localhost:3000/api/tasks')
@@ -32,6 +61,25 @@ function TasksPage() {
                 }
             })
             .catch(error => console.error('Error fetching tasks:', error))
+
+        fetchCompletedTasks('testuser1') // change to actual username
+            .then(completedTasks => {
+              console.log(completedTasks);
+              return fetchTaskDetails(completedTasks.completedTasks);
+            })
+            .then(taskDetails => {
+              console.log(taskDetails);
+              setCompletedTasks(taskDetails);
+            })
+            .catch(error => console.error('Error fetching completed tasks:', error));
+
+        fetch(`${rootUrl}getScore/testuser1`) //replace with actual username
+            .then(response => response.json())
+            .then(data => {
+                setScore(data);
+            })
+            .catch(error => console.error('Error fetching score:', error))
+
     }, []);
 
     // Define labels based on fetched tasks or use default values
@@ -58,14 +106,18 @@ function TasksPage() {
                     username: 'testuser1', // Replace with the actual username
                     task: task.id
                 });
-                console.log(response);
+                console.log(response.data.message);
+                setCompletedTasks(prevCompletedTasks => [...prevCompletedTasks, task]);
             } else {
                 // Call the removeTask endpoint 
                 const response = await axios.post(rootUrl + 'removeTask', {
                     username: 'testuser1', // Replace with the actual username
                     task: task.id
                 });
-                console.log(response);
+                console.log(response.data.tasks);
+                const updatedTasks = await fetchTaskDetails(response.data.tasks);
+                console.log(updatedTasks);
+                setCompletedTasks(updatedTasks);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -108,9 +160,15 @@ function TasksPage() {
             <form>
                 <fieldset>
                 <ul>
-                    
+                    {/* Completed Goals */}
+                    {completedTasks.map((task, index) => (
+                        <li key={index}>
+                            <p><strong>{task.id + ' points'}</strong>: {task.description}</p>
+                        </li>
+                    ))}
                 </ul>
                 </fieldset>
+                <ul><h2 className='title'>Score</h2> <p><strong>{score.score + ' points'}</strong></p> </ul>
             </form>
         </div>
         </div>

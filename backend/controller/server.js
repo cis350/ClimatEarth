@@ -7,7 +7,7 @@ const express = require('express');
 
 // import getRandomTasks
 
-const { getRandomTasks } = require('./utils/tasks');
+const { getRandomTasks, getTaskById } = require('./utils/tasks');
 
 // import the cors -cross origin resource sharing- module
 const cors = require('cors');
@@ -249,8 +249,10 @@ webapp.post('/addName', async (req, resp) => {
   }
 });
 
-
-// API route to get three random tasks
+/**
+ * route implementation GET /api/tasks
+ * API route to get three random tasks
+ */
 webapp.get('/api/tasks', (req, res) => {
   try {
       const selectedTasks = getRandomTasks();
@@ -259,6 +261,27 @@ webapp.get('/api/tasks', (req, res) => {
   } catch (error) {
       console.error("Error fetching tasks:", error);
       res.status(500).send("An error occurred while fetching tasks");
+  }
+});
+
+/**
+ * route implementation GET /api/tasks/:id
+ * API route to get a specific task by its id
+ */
+webapp.get('/api/tasks/:id', (req, res) => {
+  try {
+      const taskId = parseInt(req.params.id);
+      console.log(taskId);
+      const task = getTaskById(taskId);
+
+      if (!task) {
+          return res.status(404).json({ message: 'Task not found' });
+      }
+
+      res.json(task);
+  } catch (error) {
+      console.error("Error fetching task:", error);
+      res.status(500).send("An error occurred while fetching task");
   }
 });
 
@@ -337,7 +360,7 @@ webapp.post('/removeTask', async (req, resp) => {
 
 
     if (result.modifiedCount === 1) {
-      return resp.status(200).json({ message: 'Task removed successfully' });
+      return resp.status(200).json({ message: 'Task removed successfully', tasks : user.completedTasks });
     } else {
       return resp.status(500).json({ message: 'Failed to remove task' });
     }
@@ -414,6 +437,59 @@ webapp.get('/getScore/:username', async (req, resp) => {
   }
 });
 
+/**
+ * route implementation GET /getScore/:username
+ * get score of user for leader board
+ */
+webapp.post('/setScore', async (req, resp) => {
+  try {
+    const db = await getDB();
+    const { username } = req.body;
+    
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+
+    if (!user) {
+        return resp.status(404).json({ message: 'User not found' });
+    }
+
+    // Get the score (length of the completedTasks array)
+    const score = user.completedTasks.length;
+
+    // Update user document to add set score
+    await db.collection('users').updateOne(
+      { _id: user._id },
+      { $set: { score: score } }
+    );
+
+    return resp.status(200).json({ score });
+  } catch (error) {
+    console.error('Error getting score:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+webapp.get('/getCompletedTasks/:username', async (req, resp) => {
+  try {
+    const db = await getDB();
+    const { username } = req.params;
+
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+
+    if (!user) {
+      return resp.status(404).json({ message: 'User not found' });
+    }
+
+    // Retrieve completed tasks from the user document
+    const completedTasks = user.completedTasks;
+
+    return resp.status(200).json({ completedTasks });
+  } catch (error) {
+    console.error('Error getting completed tasks:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 // export the webapp
 module.exports = webapp;

@@ -26,6 +26,9 @@ function getRandomTasks() {
     return shuffled.slice(0, 3); // Get the first three elements
 }
 
+// Function to fetch a task based on its id
+function getTaskById(id) {
+    return tasks.find(task => task.id === id);
+}
 
-
-module.exports = {getRandomTasks};
+module.exports = { getRandomTasks, getTaskById };
