@@ -4,7 +4,7 @@
   "description": "Final project app",
   "main": "index.js",
   "scripts": {
-    "start": "cd frontend && npm start",
+    "start": "react-scripts --directory=frontend start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +19,8 @@
   "homepage": "https://github.com/cis350/group-project-caroline-preston-shreya-anna-anjana#readme",
   "devDependencies": {
     "cypress": "^13.8.1"
+  },
+  "dependencies": {
+    "react-scripts": "^5.0.1"
   }
 }
