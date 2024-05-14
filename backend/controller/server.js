@@ -25,6 +25,7 @@ const { authenticateUser, verifyUser, blacklistJWT, updateCalculation } = requir
 
 // enable cors
 webapp.use(cors());
+webapp.use(cors( {origin: 'http://localhost:3000'} ));
 
 // configure express to parse request bodies
 webapp.use(express.urlencoded({ extended: true }));
