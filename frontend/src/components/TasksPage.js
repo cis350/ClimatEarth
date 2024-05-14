@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './TaskPage.css';
 import './Component.css';
 import './App.js'
+import axios from 'axios';
+const rootUrl = 'http://localhost:5050/';
 
 const Checkbox = ({ value, onChange, label }) => {
     return (
@@ -85,7 +87,7 @@ function TasksPage() {
     const task2 = tasks.length >= 2 ? tasks[1].description : "Listen to 30 min. of an eco-friendly podcast";
     const task3 = tasks.length >= 3 ? tasks[2].description : "Use public transportation";
 
-    const handleCheckboxChange = (index) => {
+    const handleCheckboxChange = async (index, task) => {
         const updatedValues = [...checkboxValues];
         updatedValues[index] = !updatedValues[index];
         setCheckboxValues(updatedValues);
@@ -169,13 +171,6 @@ function TasksPage() {
                 <ul><h2 className='title'>Score</h2> <p><strong>{score.score + ' points'}</strong></p> </ul>
             </form>
         </div>
-        {completed && (
-            <div className="celebration">
-            <h2>Congratulations! You completed all your tasks!</h2>
-            <div className="earth-animation">
-            </div>
-            </div>
-        )}
         </div>
     );
 }
