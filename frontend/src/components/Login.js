@@ -73,6 +73,8 @@ function Login() {
         // delete the JWT once the backend response is 200
         localStorage.removeItem('app-token');
         sessionStorage.removeItem('app-token');
+        localStorage.removeItem('username');
+        sessionStorage.removeItem('username');
         //restart the app
         window.location.reload();
     }
