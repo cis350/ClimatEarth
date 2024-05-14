@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Final project app",
   "main": "index.js",
-  "dependencies": {
-    "react-scripts": "^5.0.1"
-  },
   "scripts": {
     "start": "cd frontend && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
