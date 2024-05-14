@@ -33,6 +33,7 @@ function TasksPage() {
             if (!response.ok) {
                 throw new Error('Failed to fetch completed tasks');
             }
+            console.log(username);
             const data = await response.json();
             return data;
         } catch (error) {
@@ -71,6 +72,7 @@ function TasksPage() {
         fetchCompletedTasks(username) // change to actual username
             .then(completedTasks => {
               console.log(completedTasks);
+              console.log(username);
               return fetchTaskDetails(completedTasks.completedTasks);
             })
             .then(taskDetails => {

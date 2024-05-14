@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import './Component.css';
 import { useParams } from 'react-router-dom';
 import './App.js'
@@ -13,46 +13,60 @@ function CarbonFootprintCalculator() {
     const [flightDistance, setFlightDistance] = useState('');
     const [carMileage, setCarMileage] = useState('');
     const [carMiles, setCarMiles] = useState('');
-    const [carbonFootprint, setCarbonFootprint] = useState(0);
     const [isCalculating, setIsCalculating] = useState(false);
     const [carbonFootprintValue, setCarbonFootprintValue] = useState(0);
-    const { username } = useParams();
+    const [userData, setUserData] = useState(null);
+    // const { username } = useParams(); 
 
   
     // Function to handle calculation
     const calculateCarbonFootprint = async () => {
       setIsCalculating(true);
-      setTimeout(() => {
+      try {
         // Perform calculation based on user inputs
         const electricityUsageTotal = electricityUsage * 0.5; 
         const gasUsageTotal = gasUsage * 0.2;
         const flightDistanceTotal = flightDistance * 0.2; 
         const carMileageTotal = (carMiles / carMileage) * 20 * (1/ 2.20462);
-        setCarbonFootprintValue(carMileageTotal + flightDistanceTotal + gasUsageTotal + 
-        electricityUsageTotal); 
-        setCarbonFootprint(carbonFootprintValue);
-        setIsCalculating(false);
-      }, 500);
-      try {
+        const calculatedFootprint = (carMileageTotal + flightDistanceTotal + gasUsageTotal + electricityUsageTotal);
+        setCarbonFootprintValue(calculatedFootprint);
         // Call the carbon endpoint
-        const token = localStorage.getItem('app-token');
+        const username = localStorage.getItem('username');
         const response = await axios.post(rootUrl + 'carbon', {
-          token: token,
-          footprint: carbonFootprintValue
+          username: username,
+          footprint: calculatedFootprint
         });
-        console.log(response);
-        
+        setUserData(response);
+        console.log("footprint that is updated: " + calculatedFootprint);
+
     } catch (error) {
         console.error('Error:', error);
     }
+    setIsCalculating(false);
 
     };
+
+    const fetchCarbon = async () => {
+      // Call the carbon endpoint
+      const username = localStorage.getItem('username');
+      console.log(username);
+      const response = await axios.get(`${rootUrl}getFootprint/${username}`);
+      console.log(response.data.footprint);
+      setUserData(response);
+    };
+
+    useEffect(() => {
+      fetchCarbon();
+    }, []);
   
     return (
       <div>
         <NavBar></NavBar>
       <div className="calculator-container">
         <h2 className="title">Carbon Footprint Calculator</h2>
+        {userData && (
+                <p>Your previously calculated footprint was: {userData.data.footprint} tons CO2</p>
+            )}
         <form>
           <div className="input-group">
             <label>
@@ -106,8 +120,8 @@ function CarbonFootprintCalculator() {
           </div>
         </form>
         <div className="result-container">
-          <h3>Carbon Footprint: {carbonFootprint} tons CO2</h3>
-          {carbonFootprint > 0 && (<p>Consider reducing your energy consumption to minimize your impact on the environment!</p>)}
+          <h3>Carbon Footprint: {carbonFootprintValue} tons CO2</h3>
+          {carbonFootprintValue > 0 && (<p>Consider reducing your energy consumption to minimize your impact on the environment!</p>)}
         </div>
       </div>
       </div>

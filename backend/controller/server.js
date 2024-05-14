@@ -505,9 +505,8 @@ webapp.post('/carbon', async (req, resp) => {
   // parse
   try {
     const db = await getDB();
-    const { token, footprint } = req.body;
+    const { username, footprint } = req.body;
     // Find the user by username
-    const username = await updateCalculation(token);
     const user = await db.collection('users').findOne({ username });
     if (!user) {
       return resp.status(404).json({ message: 'User not found' });
@@ -518,9 +517,7 @@ webapp.post('/carbon', async (req, resp) => {
     { $set: { footprint: footprint } }
   );
   if (result.modifiedCount === 1) {
-    return resp.status(200).json({ username: username });
-  } else {
-    return resp.status(500).json({ message: 'Failed to add footprint' });
+    return resp.status(200).json(user);
   }
 } catch (error) {
   console.error('Error adding footprint:', error);
@@ -528,6 +525,24 @@ webapp.post('/carbon', async (req, resp) => {
 }
 });
 
+webapp.get('/getFootprint/:username', async (req, resp) => {
+  try {
+    const db = await getDB();
+    const { username } = req.params;
+    // Find the user by username
+    const user = await db.collection('users').findOne({ username });
+    if (!user) {
+        return resp.status(404).json({ message: 'User not found' });
+    }
+    // Get the footprint
+    const footprint = user.footprint; 
+    console.log("footprint: " + footprint); 
+    return resp.status(200).json({ footprint : footprint });
+  } catch (error) {
+    console.error('Error getting footprint:', error);
+    return resp.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 // export the webapp
 module.exports = webapp;

@@ -34,7 +34,7 @@ function Login() {
   // add a state to the component
   // update the login state to check for the presence 
   // of the JWT
-  const [loginToken, setLoginToken] = useState(sessionStorage.getItem('app-token')!== null);
+  const [loginToken, setLoginToken] = useState(false);
   // will store the username. this value is destroyed after each rendering
   let password; // will store the password
   const [error, setError] = useState(null);
@@ -80,7 +80,7 @@ function Login() {
         localStorage.removeItem('app-token');
         sessionStorage.removeItem('app-token');
         //restart the app
-        setLoginToken(true);
+        setLoginToken(false);
         window.location.reload();
     }
   } catch (error) {
