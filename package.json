@@ -19,6 +19,5 @@
   "homepage": "https://github.com/cis350/group-project-caroline-preston-shreya-anna-anjana#readme",
   "devDependencies": {
     "cypress": "^13.8.1"
-  },
-  "proxy": "https://climatearth-app-f6f0a136cce9.herokuapp.com/"
+  }
 }

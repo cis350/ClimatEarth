@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './TaskPage.css';
 import './Component.css';
 import './App.js'
-import axios from 'axios';
-const rootUrl = 'https://climatearth-app-f6f0a136cce9.herokuapp.com/';
 
 const Checkbox = ({ value, onChange, label }) => {
     return (
@@ -51,7 +49,7 @@ function TasksPage() {
     };
 
     useEffect(() => {
-        fetch(rootUrl + 'api/tasks')
+        fetch('http://localhost:3000/api/tasks')
             .then(response => response.json())
             .then(data => {
                 if (data.length >= 3) {
@@ -87,11 +85,11 @@ function TasksPage() {
     const task2 = tasks.length >= 2 ? tasks[1].description : "Listen to 30 min. of an eco-friendly podcast";
     const task3 = tasks.length >= 3 ? tasks[2].description : "Use public transportation";
 
-    const handleCheckboxChange = async (index, task) => {
+    const handleCheckboxChange = (index) => {
         const updatedValues = [...checkboxValues];
         updatedValues[index] = !updatedValues[index];
         setCheckboxValues(updatedValues);
-        if (updatedValues[0] === true && updatedValues[1] === true && updatedValues[2] === true) {
+        if (updatedValues[0] == true && updatedValues[1] == true && updatedValues[2] == true) {
           setCompleted(true);
         }
         else {
@@ -132,17 +130,17 @@ function TasksPage() {
                 <fieldset>
                     <Checkbox
                         value={checkboxValues[0]}
-                        onChange={() => handleCheckboxChange(0, tasks[0])}
+                        onChange={() => handleCheckboxChange(0)}
                         label={task1}
                     />
                     <Checkbox
                         value={checkboxValues[1]}
-                        onChange={() => handleCheckboxChange(1, tasks[1])}
+                        onChange={() => handleCheckboxChange(1)}
                         label={task2}
                     />
                     <Checkbox
                         value={checkboxValues[2]}
-                        onChange={() => handleCheckboxChange(2, tasks[2])}
+                        onChange={() => handleCheckboxChange(2)}
                         label={task3}
                     />
                 </fieldset>
@@ -171,6 +169,13 @@ function TasksPage() {
                 <ul><h2 className='title'>Score</h2> <p><strong>{score.score + ' points'}</strong></p> </ul>
             </form>
         </div>
+        {completed && (
+            <div className="celebration">
+            <h2>Congratulations! You completed all your tasks!</h2>
+            <div className="earth-animation">
+            </div>
+            </div>
+        )}
         </div>
     );
 }
