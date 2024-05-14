@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './Leaderboard.css';
 import './App.js';
 import NavBar from "../Navigation/Navbar.js";
-import { useParams } from 'react-router-dom';
+//import { useParams } from 'react-router-dom';
 const rootUrl = 'http://localhost:5050/';
 
 function Leaderboard() {
     const [users, setUsers] = useState([]);
-    const { username } = useParams();
+    //const { username } = useParams();
 
     useEffect(() => {
         fetch(rootUrl + 'api/leaderboard')

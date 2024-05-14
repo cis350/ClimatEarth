@@ -57,7 +57,7 @@ function TasksPage() {
         return tasks;
     };
 
-    useEffect(() => {
+    useEffect((username) => {
         fetch('http://localhost:3000/api/tasks')
             .then(response => response.json())
             .then(data => {
