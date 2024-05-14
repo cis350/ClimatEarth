@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import './Component.css';
 import './App.js'
 import axios from 'axios';
-const rootUrl = 'http://localhost:5050/';
+const rootUrl = '../api/utils.js';
 
 function CarbonFootprintCalculator() {
     // State variables to store user inputs and calculation result
