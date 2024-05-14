@@ -7,9 +7,6 @@ import { setHeaders } from "./utils";
  * users CRUD 
  */
 
-
-
-
 /**
  * get all the users from the backend
  */

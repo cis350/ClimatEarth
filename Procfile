@@ -1,1 +1,1 @@
-web: cd backend && npm install && npm start --port 5050
+web: cd backend && npm install && npm start

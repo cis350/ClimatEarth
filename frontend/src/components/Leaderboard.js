@@ -6,7 +6,7 @@ function Leaderboard() {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        fetch('https://climatearth-app-f6f0a136cce9.herokuapp.com:5050/api/leaderboard')
+        fetch('http://localhost:3000/api/leaderboard')
             .then(response => response.json())
             .then(data => {
                 // Assuming data is an array of user objects w a name field
