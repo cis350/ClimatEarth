@@ -42,9 +42,9 @@ const authenticateUser = (username, password) => {
 const verifyUser = async (token) => {
   try {
     // check if token blacklisted
-    if (jwtBlacklist.has(token)) {
-      return 3;
-    }
+    // if (jwtBlacklist.has(token)) {
+    //   return 3;
+    // }
 
     // decoded contains the paylod of the token
     const decoded = jwt.verify(token, "123");
@@ -73,14 +73,13 @@ const verifyUser = async (token) => {
   }
 };
 
-const blacklistJWT = (token) => jwtBlacklist.add(token);
+const updateCalculation = async(token) => {
+  const decoded = jwt.verify(token, "123");
+  const { username } = decoded;
+  return username; 
+};
 
-/**
-const main = () =>{
-    const token = authenticateUser('cis3500');
-    verifyUser(token);
-}
-main();
-*/
+// const blacklistJWT = (token) => jwtBlacklist.add(token);
 
-module.exports = { authenticateUser, verifyUser, blacklistJWT };
+ 
+module.exports = { authenticateUser, verifyUser, updateCalculation};

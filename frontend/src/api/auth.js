@@ -21,7 +21,10 @@ export const loginUser = async (username, password) => {
         console.log(password);
         const response = await axios.post(`${rootURL}/login`, `username=${username}&password=${password}`);
         // return the token
-        return response.status === 200;
+        if (response.status === 200) {
+            const { apptoken } = response.data;
+            return apptoken;
+        }
     } catch (err){
         console.log('error', err.message);
     }
@@ -31,7 +34,9 @@ export const logoutUser = async () => {
     try{
         // add JWT to headers
         setHeaders();
+        console.log("In logout user" + localStorage.getItem('app-token'));
         const response = await axios.post(`${rootURL}/logout`);
+        console.log(response.status);
         // return the token
         return response.status;
     } catch (err){

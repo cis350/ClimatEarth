@@ -14,6 +14,8 @@ function CarbonFootprintCalculator() {
     const [carbonFootprint, setCarbonFootprint] = useState(0);
     const [isCalculating, setIsCalculating] = useState(false);
     const [carbonFootprintValue, setCarbonFootprintValue] = useState(0);
+
+
   
     // Function to handle calculation
     const calculateCarbonFootprint = async () => {
@@ -31,8 +33,9 @@ function CarbonFootprintCalculator() {
       }, 500);
       try {
         // Call the carbon endpoint
+        const token = localStorage.getItem('app-token');
         const response = await axios.post(rootUrl + 'carbon', {
-          username: 'shreya', // Replace with the actual username
+          token: token,
           footprint: carbonFootprintValue
         });
         console.log(response);
