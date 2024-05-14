@@ -46,9 +46,14 @@ connect()
   });
 
 
-// root endpoint route
+/* // root endpoint route
 webapp.get('/', (_req, resp) => {
   resp.json({ message: 'hello CIS3500 SP24!!!' });
+}); */
+
+//Put this after all middleware. Otherwise, Heroku will give you 304 page
+webapp.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 /**
