@@ -16,6 +16,8 @@ const cors = require('cors');
 const webapp = express();
 webapp.use(express.json());
 
+webapp.set('trust proxy', true);
+
 // import authentication functions
 const { authenticateUser, verifyUser, blacklistJWT, updateCalculation } = require('./utils/auth');
 
