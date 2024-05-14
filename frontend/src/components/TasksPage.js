@@ -76,7 +76,7 @@ function TasksPage() {
         fetch(`${rootUrl}getScore/testuser1`) //replace with actual username
             .then(response => response.json())
             .then(data => {
-                setScore(data);
+                setScore(data.score);
             })
             .catch(error => console.error('Error fetching score:', error))
 
@@ -108,6 +108,7 @@ function TasksPage() {
                 });
                 console.log(response.data.message);
                 setCompletedTasks(prevCompletedTasks => [...prevCompletedTasks, task]);
+                setScore(score + 1);
             } else {
                 // Call the removeTask endpoint 
                 const response = await axios.post(rootUrl + 'removeTask', {
@@ -118,6 +119,7 @@ function TasksPage() {
                 const updatedTasks = await fetchTaskDetails(response.data.tasks);
                 console.log(updatedTasks);
                 setCompletedTasks(updatedTasks);
+                setScore(score - 1);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -168,7 +170,7 @@ function TasksPage() {
                     ))}
                 </ul>
                 </fieldset>
-                <ul><h2 className='title'>Score</h2> <p><strong>{score.score + ' points'}</strong></p> </ul>
+                <ul><h2 className='title'>Score</h2> <p><strong>{score + ' points'}</strong></p> </ul>
             </form>
         </div>
         </div>

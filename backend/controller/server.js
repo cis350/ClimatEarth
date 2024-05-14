@@ -279,7 +279,6 @@ webapp.get('/api/tasks', (req, res) => {
 webapp.get('/api/tasks/:id', (req, res) => {
   try {
       const taskId = parseInt(req.params.id);
-      console.log(taskId);
       const task = getTaskById(taskId);
 
       if (!task) {
@@ -363,12 +362,15 @@ webapp.post('/removeTask', async (req, resp) => {
     // Update user document to remove the task
     const result = await db.collection('users').updateOne(
       { _id: user._id },
-      { $set: { completedTasks: user.completedTasks } }
+      { $set: { completedTasks: user.completedTasks },
+      $inc: { score: -1 } }
     );
 
 
     if (result.modifiedCount === 1) {
-      return resp.status(200).json({ message: 'Task removed successfully', tasks : user.completedTasks });
+      return resp.status(200).json({ message: 'Task removed successfully', tasks : user.completedTasks,
+        score : user.score - 1
+       });
     } else {
       return resp.status(500).json({ message: 'Failed to remove task' });
     }
@@ -405,11 +407,12 @@ webapp.post('/addTask', async (req, resp) => {
     // Update user document to add the task
     const result = await db.collection('users').updateOne(
       { _id: user._id },
-      { $set: { completedTasks: updatedTasks } }
+      { $set: { completedTasks: updatedTasks },
+        $inc: { score: 1 } }
     );
 
     if (result.modifiedCount === 1) {
-      return resp.status(200).json({ message: 'Task added successfully' });
+      return resp.status(200).json({ message: 'Task added successfully', score : user.score + 1 });
     } else {
       return resp.status(500).json({ message: 'Failed to add task' });
     }
@@ -463,6 +466,10 @@ webapp.get('/getScore/:username', async (req, resp) => {
 
     // Get the score (length of the completedTasks array)
     const score = user.completedTasks.length;
+    await db.collection('users').updateOne(
+      { _id: user._id },
+      { $set: { score: score } }
+    );
 
     return resp.status(200).json({ score });
   } catch (error) {
