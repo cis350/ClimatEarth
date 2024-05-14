@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './Leaderboard.css';
 import './App.js';
+const rootUrl = 'https://climatearth-app-f6f0a136cce9.herokuapp.com/';
 
 function Leaderboard() {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/leaderboard')
+        fetch(rootUrl + 'api/leaderboard')
             .then(response => response.json())
             .then(data => {
                 // Assuming data is an array of user objects w a name field

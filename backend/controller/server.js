@@ -16,8 +16,10 @@ const cors = require('cors');
 const webapp = express();
 webapp.use(express.json());
 
+webapp.set('trust proxy', true);
+
 // import authentication functions
-const { authenticateUser, verifyUser, blacklistJWT } = require('./utils/auth');
+const { authenticateUser, verifyUser, blacklistJWT, updateCalculation } = require('./utils/auth');
 
 // enable cors
 webapp.use(cors());
@@ -64,6 +66,7 @@ webapp.post('/login', async (req, resp) => {
   }
   if (!req.body.password || req.body.password === '') {
     resp.status(400).json({ error: 'empty or missing password' });
+    return; 
   } 
   // authenticate the user
   try {
@@ -72,6 +75,7 @@ webapp.post('/login', async (req, resp) => {
     if (verificationResult === 0) {
       // User verified, login successful
       resp.status(200).json({ apptoken: token });
+      console.log(token);
     } else {
       throw new Error('User verification failed');
     }
@@ -90,18 +94,22 @@ webapp.post('/logout', async (req, resp) => {
   // verify the session
   console.log('logout');
   try {
-    const authResp = await verifyUser(req.headers.authorization);
-    if (authResp === 1) { // expired session
-      resp.status(403).json({ message: 'Session expired already' });
-      return;
-    }
-    if (authResp === 2 || authResp === 3) { // invalid user or jwt
-      resp.status(401).json({ message: 'Invalid user or session' });
-      return;
-    }
+    const authorizationHeader = req.headers.authorization;
+    console.log("auth header: " + authorizationHeader);
+    const authResp = await verifyUser(authorizationHeader); // Pass token to verifyUser function
+    // if (authResp === 1) { // expired session
+    //   console.log("expired");
+    //   resp.status(403).json({ message: 'Session expired already' });
+    //   return;
+    // }
+    // if (authResp === 2 || authResp === 3) { // invalid user or jwt
+    //   console.log("invalid user or jwt");
+    //   resp.status(401).json({ message: 'Invalid user or session' });
+    //   return;
+    // }
     // session valid blacklist the JWT
-    blacklistJWT(req.headers.authorization);
-    resp.status(200).json({ message: 'Session terminated' });
+    // blacklistJWT(req.headers.authorization);
+    return resp.status(200).json({ message: 'Session terminated' });
   } catch (err) {
     resp.status(400).json({ message: 'There was an error' });
   }
@@ -437,59 +445,48 @@ webapp.get('/getScore/:username', async (req, resp) => {
   }
 });
 
-/**
- * route implementation GET /getScore/:username
- * get score of user for leader board
- */
-webapp.post('/setScore', async (req, resp) => {
+// API route for the leaderboard
+webapp.get('/api/leaderboard', async (req, res) => {
   try {
-    const db = await getDB();
-    const { username } = req.body;
-    
-    // Find the user by username
-    const user = await db.collection('users').findOne({ username });
-
-    if (!user) {
-        return resp.status(404).json({ message: 'User not found' });
-    }
-
-    // Get the score (length of the completedTasks array)
-    const score = user.completedTasks.length;
-
-    // Update user document to add set score
-    await db.collection('users').updateOne(
-      { _id: user._id },
-      { $set: { score: score } }
-    );
-
-    return resp.status(200).json({ score });
+    const leaderboardData = await getLeaderboard();
+    res.json(leaderboardData);
   } catch (error) {
-    console.error('Error getting score:', error);
-    return resp.status(500).json({ message: 'Internal server error' });
-  }
-});
+    console.error("Error fetching leaderboard:", error);
+    res.status(500).send("An error occurred while fetching leaderboard");
+  
+  }});
 
-webapp.get('/getCompletedTasks/:username', async (req, resp) => {
+/**
+ * Carbon calculator endpoint
+ * The name is used to add footprint to user
+ */
+webapp.post('/carbon', async (req, resp) => {
+  // parse
   try {
     const db = await getDB();
-    const { username } = req.params;
-
+    const { token, footprint } = req.body;
     // Find the user by username
+    const username = await updateCalculation(token);
     const user = await db.collection('users').findOne({ username });
-
     if (!user) {
       return resp.status(404).json({ message: 'User not found' });
-    }
-
-    // Retrieve completed tasks from the user document
-    const completedTasks = user.completedTasks;
-
-    return resp.status(200).json({ completedTasks });
-  } catch (error) {
-    console.error('Error getting completed tasks:', error);
-    return resp.status(500).json({ message: 'Internal server error' });
   }
+  // Update user document to add footprint field
+  const result = await db.collection('users').updateOne(
+    { _id: user._id },
+    { $set: { footprint: footprint } }
+  );
+  if (result.modifiedCount === 1) {
+    return resp.status(200).json({ username: username });
+  } else {
+    return resp.status(500).json({ message: 'Failed to add footprint' });
+  }
+} catch (error) {
+  console.error('Error adding footprint:', error);
+  return resp.status(500).json({ message: 'Internal server error' });
+}
 });
+
 
 // export the webapp
 module.exports = webapp;

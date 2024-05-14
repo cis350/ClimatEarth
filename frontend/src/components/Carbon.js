@@ -1,6 +1,8 @@
 import React, { useState} from 'react';
 import './Component.css';
 import './App.js'
+import axios from 'axios';
+const rootUrl = 'https://climatearth-app-f6f0a136cce9.herokuapp.com/';
 
 function CarbonFootprintCalculator() {
     // State variables to store user inputs and calculation result
@@ -11,9 +13,12 @@ function CarbonFootprintCalculator() {
     const [carMiles, setCarMiles] = useState('');
     const [carbonFootprint, setCarbonFootprint] = useState(0);
     const [isCalculating, setIsCalculating] = useState(false);
+    const [carbonFootprintValue, setCarbonFootprintValue] = useState(0);
+
+
   
     // Function to handle calculation
-    const calculateCarbonFootprint = () => {
+    const calculateCarbonFootprint = async () => {
       setIsCalculating(true);
       setTimeout(() => {
         // Perform calculation based on user inputs
@@ -21,11 +26,24 @@ function CarbonFootprintCalculator() {
         const gasUsageTotal = gasUsage * 0.2;
         const flightDistanceTotal = flightDistance * 0.2; 
         const carMileageTotal = (carMiles / carMileage) * 20 * (1/ 2.20462);
-        const carbonFootprintValue = carMileageTotal + flightDistanceTotal + gasUsageTotal + 
-        electricityUsageTotal; 
+        setCarbonFootprintValue(carMileageTotal + flightDistanceTotal + gasUsageTotal + 
+        electricityUsageTotal); 
         setCarbonFootprint(carbonFootprintValue);
         setIsCalculating(false);
       }, 500);
+      try {
+        // Call the carbon endpoint
+        const token = localStorage.getItem('app-token');
+        const response = await axios.post(rootUrl + 'carbon', {
+          token: token,
+          footprint: carbonFootprintValue
+        });
+        console.log(response);
+        
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
     };
   
     return (

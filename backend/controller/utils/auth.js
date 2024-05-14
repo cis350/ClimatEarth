@@ -22,10 +22,10 @@ const jwtBlacklist = new Set();
  * @param {*} userid
  * @returns the token
  */
-const authenticateUser = (username) => {
+const authenticateUser = (username, password) => {
   try {
     console.log("In authenticateUser");
-    const token = jwt.sign({ username }, "123", { expiresIn: '120s' });
+    const token = jwt.sign({ username, password }, "123", { expiresIn: '120s' });
     console.log('token', token);
     return token;
   } catch (err) {
@@ -42,19 +42,23 @@ const authenticateUser = (username) => {
 const verifyUser = async (token) => {
   try {
     // check if token blacklisted
-    if (jwtBlacklist.has(token)) {
-      return 3;
-    }
-    //never checks password?
+    // if (jwtBlacklist.has(token)) {
+    //   return 3;
+    // }
 
     // decoded contains the paylod of the token
     const decoded = jwt.verify(token, "123");
-    console.log('payload', decoded);
+    // checks password
+    const { username, password } = decoded;
+  
     // check that the payload contains a valid user
-    const user = await getUserByUName(decoded.username);
+    const user = await getUserByUName(username);
     if (!user) {
       // user is undefined
       return 2;
+    }
+    if (user.password !== password) {
+      return 3; // Invalid password
     }
     return 0; // user verified - success
   } catch (err) {
@@ -69,14 +73,13 @@ const verifyUser = async (token) => {
   }
 };
 
-const blacklistJWT = (token) => jwtBlacklist.add(token);
+const updateCalculation = async(token) => {
+  const decoded = jwt.verify(token, "123");
+  const { username } = decoded;
+  return username; 
+};
 
-/**
-const main = () =>{
-    const token = authenticateUser('cis3500');
-    verifyUser(token);
-}
-main();
-*/
+// const blacklistJWT = (token) => jwtBlacklist.add(token);
 
-module.exports = { authenticateUser, verifyUser, blacklistJWT };
+ 
+module.exports = { authenticateUser, verifyUser, updateCalculation};
