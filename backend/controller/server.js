@@ -51,6 +51,8 @@ connect()
 /* webapp.get('/', (_req, resp) => {
   resp.json({ message: 'hello CIS3500 SP24!!!' });
 }); */
+const path = require('path')
+webapp.use(express.static(path.join(__dirname, '../../frontend/build')))
 webapp.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/build/index.html'))
 })
