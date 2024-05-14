@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import './Component.css';
 import './App.js'
 import axios from 'axios';
-const rootUrl = 'http://localhost:5050/';
+const rootUrl = 'https://climatearth-app-f6f0a136cce9.herokuapp.com/';
 
 function CarbonFootprintCalculator() {
     // State variables to store user inputs and calculation result

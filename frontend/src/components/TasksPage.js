@@ -3,7 +3,7 @@ import './TaskPage.css';
 import './Component.css';
 import './App.js'
 import axios from 'axios';
-const rootUrl = 'http://localhost:5050/';
+const rootUrl = 'https://climatearth-app-f6f0a136cce9.herokuapp.com/';
 
 const Checkbox = ({ value, onChange, label }) => {
     return (
@@ -22,7 +22,7 @@ function TasksPage() {
     const [completed, setCompleted] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:3000/api/tasks')
+        fetch(rootUrl + 'api/tasks')
             .then(response => response.json())
             .then(data => {
                 if (data.length >= 3) {
