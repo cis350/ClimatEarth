@@ -1,6 +1,6 @@
 // HTTP client
 import axios from "axios";
-import { rootURL } from "../utils/utils";
+import { rootURL } from ".utils";
 import { setHeaders } from "./utils";
 /**
  * This module contains HTTP calls to API
