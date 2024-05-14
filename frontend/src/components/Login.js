@@ -130,7 +130,7 @@ function Login() {
         {error && <p className="error-message">{error}</p>}
         </div>
         <div>
-        <CreateComponent type={'button'} eventHandler={handleLogout} text={<a href="/login" class="cta-buttons"> Logout</a>}/> 
+        <CreateComponent type={'button'} eventHandler={handleLogout} text={<a href="/login" className="cta-buttons"> Logout</a>}/> 
         </div>
       </div>
     );
