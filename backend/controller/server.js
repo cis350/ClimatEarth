@@ -515,10 +515,8 @@ webapp.post('/carbon', async (req, resp) => {
     { $set: { footprint: footprint } }
   );
   if (result.modifiedCount === 1) {
-    return resp.status(200).json({ username: username });
-  } else {
-    return resp.status(500).json({ message: 'Failed to add footprint' });
-  }
+    return resp.status(200).json(user);
+  } 
 } catch (error) {
   console.error('Error adding footprint:', error);
   return resp.status(500).json({ message: 'Internal server error' });

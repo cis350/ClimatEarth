@@ -11,10 +11,9 @@ function CarbonFootprintCalculator() {
     const [flightDistance, setFlightDistance] = useState('');
     const [carMileage, setCarMileage] = useState('');
     const [carMiles, setCarMiles] = useState('');
-    const [carbonFootprint, setCarbonFootprint] = useState(0);
     const [isCalculating, setIsCalculating] = useState(false);
+    const [userData, setUserData] = useState(null); 
     const [carbonFootprintValue, setCarbonFootprintValue] = useState(0);
-    const [userData, setUserData] = useState(null);
 
     // Fetch user data on component mount
     useEffect(() => {
@@ -35,29 +34,27 @@ function CarbonFootprintCalculator() {
     // Function to handle calculation
     const calculateCarbonFootprint = async () => {
       setIsCalculating(true);
-      setTimeout(() => {
-        // Perform calculation based on user inputs
-        const electricityUsageTotal = electricityUsage * 0.5; 
-        const gasUsageTotal = gasUsage * 0.2;
-        const flightDistanceTotal = flightDistance * 0.2; 
-        const carMileageTotal = (carMiles / carMileage) * 20 * (1/ 2.20462);
-        setCarbonFootprintValue(carMileageTotal + flightDistanceTotal + gasUsageTotal + 
-        electricityUsageTotal); 
-        setCarbonFootprint(carbonFootprintValue);
-        setIsCalculating(false);
-      }, 500);
       try {
+          // Perform calculation based on user inputs
+          const electricityUsageTotal = electricityUsage * 0.5; 
+          const gasUsageTotal = gasUsage * 0.2;
+          const flightDistanceTotal = flightDistance * 0.2; 
+          const carMileageTotal = (carMiles / carMileage) * 20 * (1/ 2.20462);
+          const calculatedFootprint = (carMileageTotal + flightDistanceTotal + gasUsageTotal + electricityUsageTotal);
+          setCarbonFootprintValue(calculatedFootprint);
         // Call the carbon endpoint
         const username = localStorage.getItem('username');
         const response = await axios.post(rootUrl + 'carbon', {
           username: username,
-          footprint: carbonFootprintValue
+          footprint: calculatedFootprint
         });
-        console.log(response);
+        setUserData(response);
+        console.log("footprint that is updated: " + calculatedFootprint);
         
     } catch (error) {
         console.error('Error:', error);
     }
+    setIsCalculating(false);
 
     };
   
@@ -120,8 +117,8 @@ function CarbonFootprintCalculator() {
           </div>
         </form>
         <div className="result-container">
-          <h3>Carbon Footprint: {carbonFootprint} tons CO2</h3>
-          {carbonFootprint > 0 && (<p>Consider reducing your energy consumption to minimize your impact on the environment!</p>)}
+          <h3>Carbon Footprint: {carbonFootprintValue} tons CO2</h3>
+          {carbonFootprintValue > 0 && (<p>Consider reducing your energy consumption to minimize your impact on the environment!</p>)}
         </div>
       </div>
     );
