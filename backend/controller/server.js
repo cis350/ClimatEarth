@@ -48,7 +48,8 @@ connect()
 
 // root endpoint route
 webapp.get('/', (_req, resp) => {
-  resp.json({ message: 'hello CIS3500 SP24!!!' });
+  //resp.json({ message: 'hello CIS3500 SP24!!!' });
+  resp.sendFile(path.join(__dirname, 'index.html'));
 });
 
 /**
