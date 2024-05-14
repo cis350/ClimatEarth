@@ -6,10 +6,13 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import CreateComponent from './ComponentFactoryHOC';
 // import api functions
 import { loginUser, logoutUser } from '../api/auth';
 import "./Component.css"
+import NavBar from "../Navigation/Navbar.js";
+import { useNavigate } from 'react-router-dom';
 
 /**
  * The login/logout component is stateful
@@ -32,10 +35,12 @@ function Login() {
   // update the login state to check for the presence 
   // of the JWT
   const [loginToken, setLoginToken] = useState(sessionStorage.getItem('app-token')!== null);
-  let username; // will store the username. this value is destroyed after each rendering
+  // will store the username. this value is destroyed after each rendering
   let password; // will store the password
   const [error, setError] = useState(null);
   const usernameRef = useRef(localStorage.getItem('username') || ''); // this  value will persist between rendering
+  const navigate = useNavigate();
+  let { username } = useParams();
   
   // login button click event handler.
   /**
@@ -51,6 +56,7 @@ function Login() {
         sessionStorage.setItem('app-token', token);
         setLoginToken(true);
         setError(null);
+        navigate('/' + username + '/login')
         console.log('Login successful');
       } else {
         setError('Authentication failed. Please check your credentials.');
@@ -74,6 +80,7 @@ function Login() {
         localStorage.removeItem('app-token');
         sessionStorage.removeItem('app-token');
         //restart the app
+        setLoginToken(true);
         window.location.reload();
     }
   } catch (error) {
@@ -88,18 +95,18 @@ function Login() {
   const handleUsernameChange = (e) => {
     username = e.target.value; // update local variable
     usernameRef.current = e.target.value; // update reference
-    console.log('value', username);
   };
 
    // input change event handler
    const handlePasswordChange = (e) => {
     password = e.target.value; // update the reference
-    console.log('value', password);
   };
 
   // conditional rendering based on the state
   if (loginToken === false) {
     return (
+      <div>
+      <NavBar></NavBar>
       <div className="login-container">
         <h1 className="login-title">Login </h1>
         <form onSubmit={handleLogin}>
@@ -125,21 +132,25 @@ function Login() {
         <p>Don't have an account? <a href="/signup">Sign up</a></p>
         {error && <p className="error-message">{error}</p>}
       </div>
+      </div>
     );
   }
   else {
     return (
+      <div>
+      <NavBar></NavBar>
       <div className="App">
         <div>
         <label>
           {' '}
-          Welcome {usernameRef.current}
+          Welcome {username}
         </label>
         {error && <p className="error-message">{error}</p>}
         </div>
         <div>
-        <CreateComponent type={'button'} eventHandler={handleLogout} text={<a href="/login" className="cta-buttons"> Logout</a>}/> 
+        <CreateComponent type={'button'} eventHandler={handleLogout} text={<a href={`/${username}/login`} className="cta-buttons"> Logout</a>}/> 
         </div>
+      </div>
       </div>
     );
   }

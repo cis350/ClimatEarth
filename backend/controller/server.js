@@ -169,6 +169,8 @@ webapp.post('/signup', async (req, resp) => {
       username: req.body.username,
       password: req.body.password,
       name: req.body.name,
+      completedTasks: [],
+      score: 0,
     };
 
     console.log("Before adding user");
@@ -318,7 +320,8 @@ webapp.post('/setTasks', async (req, resp) => {
     // Update user document to add completedTasks field
     const result = await db.collection('users').updateOne(
       { _id: user._id },
-      { $set: { completedTasks: tasks } }
+      { $set: { completedTasks: tasks },
+        $set: { score: user.completedTasks.length } }
     );
     if (result.modifiedCount === 1) {
       return resp.status(200).json({ message: 'Completed tasks set successfully' });
@@ -467,13 +470,16 @@ webapp.get('/getScore/:username', async (req, resp) => {
     }
 
     // Get the score (length of the completedTasks array)
-    const score = user.completedTasks.length;
+    let score = 0;
+    if (user.completedTasks) {
+      score = user.completedTasks.length
+    } 
     await db.collection('users').updateOne(
       { _id: user._id },
       { $set: { score: score } }
     );
 
-    return resp.status(200).json({ score });
+    return resp.status(200).json({ score: score });
   } catch (error) {
     console.error('Error getting score:', error);
     return resp.status(500).json({ message: 'Internal server error' });

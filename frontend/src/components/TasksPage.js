@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './TaskPage.css';
 import './Component.css';
+import { useParams } from 'react-router-dom';
 import './App.js'
 import axios from 'axios';
+import NavBar from "../Navigation/Navbar.js";
 const rootUrl = 'http://localhost:5050/';
+
 
 const Checkbox = ({ value, onChange, label }) => {
     return (
@@ -22,6 +25,7 @@ function TasksPage() {
     const [completed, setCompleted] = useState(false);
     const [completedTasks, setCompletedTasks] = useState([]);
     const [score, setScore] = useState([]);
+    const { username } = useParams();
 
     const fetchCompletedTasks = async (username) => {
         try {
@@ -39,13 +43,15 @@ function TasksPage() {
         
     const fetchTaskDetails = async (taskIds) => {
         const tasks = [];
-        for (const taskId of taskIds) {
-          try {
-            const response = await axios.get(`http://localhost:3000/api/tasks/${taskId}`);
-            tasks.push(response.data);
-          } catch (error) {
-            console.error(`Error fetching task details for ID ${taskId}:`, error);
-          }
+        if (taskIds) {
+            for (const taskId of taskIds) {
+                try {
+                  const response = await axios.get(`http://localhost:3000/api/tasks/${taskId}`);
+                  tasks.push(response.data);
+                } catch (error) {
+                  console.error(`Error fetching task details for ID ${taskId}:`, error);
+                }
+            }
         }
         return tasks;
     };
@@ -62,7 +68,7 @@ function TasksPage() {
             })
             .catch(error => console.error('Error fetching tasks:', error))
 
-        fetchCompletedTasks('testuser1') // change to actual username
+        fetchCompletedTasks(username) // change to actual username
             .then(completedTasks => {
               console.log(completedTasks);
               return fetchTaskDetails(completedTasks.completedTasks);
@@ -73,13 +79,12 @@ function TasksPage() {
             })
             .catch(error => console.error('Error fetching completed tasks:', error));
 
-        fetch(`${rootUrl}getScore/testuser1`) //replace with actual username
+        fetch(`${rootUrl}getScore/${username}`) //replace with actual username
             .then(response => response.json())
             .then(data => {
-                setScore(data.score);
+                setScore(data.score || 0);
             })
             .catch(error => console.error('Error fetching score:', error))
-
     }, []);
 
     // Define labels based on fetched tasks or use default values
@@ -103,7 +108,7 @@ function TasksPage() {
             if (updatedValues[index]) {
                 // Call the addTask endpoint
                 const response = await axios.post(rootUrl + 'addTask', {
-                    username: 'testuser1', // Replace with the actual username
+                    username: username, // Replace with the actual username
                     task: task.id
                 });
                 console.log(response.data.message);
@@ -112,7 +117,7 @@ function TasksPage() {
             } else {
                 // Call the removeTask endpoint 
                 const response = await axios.post(rootUrl + 'removeTask', {
-                    username: 'testuser1', // Replace with the actual username
+                    username: username, // Replace with the actual username
                     task: task.id
                 });
                 console.log(response.data.tasks);
@@ -128,6 +133,7 @@ function TasksPage() {
 
     return (
         <div>
+        <NavBar></NavBar>
         <div className="goals-container">
             <h1 className='title'>Daily Goals</h1>
             <form>
@@ -165,7 +171,9 @@ function TasksPage() {
                     {/* Completed Goals */}
                     {completedTasks.map((task, index) => (
                         <li key={index}>
-                            <p><strong>{task.id + ' points'}</strong>: {task.description}</p>
+                            <p>
+                                {/* {<strong>{task.id + ' points'}</strong>:}  */}
+                            {task.description}</p>
                         </li>
                     ))}
                 </ul>

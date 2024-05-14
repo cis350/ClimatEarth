@@ -1,8 +1,36 @@
 import React from "react";
 import "./Navbar.css"
+import { useParams } from 'react-router-dom';
 
-const Navbar = () => {
-  return (
+
+function NavBar() {
+	// const location = useLocation();
+	const { username } = useParams();
+
+	// const handleLogOut = async () => {
+	// 	try {
+	// 		const response = await axios.post(`${rootURL}/logout`);
+
+	// 		if (response.status == 200) {
+	// 			socket.emit('userDisconnect');
+	// 			navigate('/');
+	// 		} else {
+	// 			alert('Log out failed.');
+	// 		}
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 		alert('Log out failed.');
+	// 	}
+	// };
+
+	// const isActive = (pathname) => {
+	// 	const loc = location.pathname.split('/');
+	// 	return '/' + loc[2] === pathname || '/' + loc[1] === pathname
+	// 		? true
+	// 		: false;
+	// };
+
+	return (
     <nav className="navbar navbar-expand-lg">
       <a className="navbar-brand" href="/">
         ClimatEarth
@@ -21,27 +49,27 @@ const Navbar = () => {
 
       <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link" href="/">
+            <a className="nav-link" href={`/${username}`}>
               Home
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/tasks">
+            <a className="nav-link" href={`/${username}/tasks`}>
               Daily Goals
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/carbon">
+            <a className="nav-link" href={`/${username}/carbon`}>
               Carbon Footprint Calculator
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/leaderboard">
+            <a className="nav-link" href={`/${username}/leaderboard`}>
               Leaderboard
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/login">
+            <a className="nav-link" href={`/${username}/login`}>
               Login
             </a>
           </li>
@@ -50,4 +78,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavBar;

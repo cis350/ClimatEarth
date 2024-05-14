@@ -1,7 +1,9 @@
 import React, { useState} from 'react';
 import './Component.css';
+import { useParams } from 'react-router-dom';
 import './App.js'
 import axios from 'axios';
+import NavBar from "../Navigation/Navbar.js";
 const rootUrl = 'http://localhost:5050/';
 
 function CarbonFootprintCalculator() {
@@ -14,7 +16,7 @@ function CarbonFootprintCalculator() {
     const [carbonFootprint, setCarbonFootprint] = useState(0);
     const [isCalculating, setIsCalculating] = useState(false);
     const [carbonFootprintValue, setCarbonFootprintValue] = useState(0);
-
+    const { username } = useParams();
 
   
     // Function to handle calculation
@@ -47,6 +49,8 @@ function CarbonFootprintCalculator() {
     };
   
     return (
+      <div>
+        <NavBar></NavBar>
       <div className="calculator-container">
         <h2 className="title">Carbon Footprint Calculator</h2>
         <form>
@@ -105,6 +109,7 @@ function CarbonFootprintCalculator() {
           <h3>Carbon Footprint: {carbonFootprint} tons CO2</h3>
           {carbonFootprint > 0 && (<p>Consider reducing your energy consumption to minimize your impact on the environment!</p>)}
         </div>
+      </div>
       </div>
     );
   }
