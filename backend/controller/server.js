@@ -262,7 +262,6 @@ webapp.get('/api/tasks', (req, res) => {
   }
 });
 
-<<<<<<< HEAD
 // API route for the leaderboard
 webapp.get('/api/leaderboard', async (req, res) => {
   try {
@@ -271,7 +270,7 @@ webapp.get('/api/leaderboard', async (req, res) => {
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
     res.status(500).send("An error occurred while fetching leaderboard");
-=======
+  }});
 /**
  * route implementation POST /setTasks
  * set the tasks user has completed
@@ -421,7 +420,6 @@ webapp.get('/getScore/:username', async (req, resp) => {
   } catch (error) {
     console.error('Error getting score:', error);
     return resp.status(500).json({ message: 'Internal server error' });
->>>>>>> 110034ea1631fbde3b788a07a24c7ca108cbcc36
   }
 });
 
