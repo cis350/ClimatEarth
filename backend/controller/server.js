@@ -53,9 +53,9 @@ connect()
 }); */
 const path = require('path')
 webapp.use(express.static(path.join(__dirname, '../../frontend/build')))
-/* webapp.get('/', (_req, res) => {
+webapp.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/build/index.html'))
-}) */
+})
 
 /**
  * Login endpoint
