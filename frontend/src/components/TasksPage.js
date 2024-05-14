@@ -132,17 +132,17 @@ function TasksPage() {
                 <fieldset>
                     <Checkbox
                         value={checkboxValues[0]}
-                        onChange={() => handleCheckboxChange(0)}
+                        onChange={() => handleCheckboxChange(0, tasks[0])}
                         label={task1}
                     />
                     <Checkbox
                         value={checkboxValues[1]}
-                        onChange={() => handleCheckboxChange(1)}
+                        onChange={() => handleCheckboxChange(1, tasks[1])}
                         label={task2}
                     />
                     <Checkbox
                         value={checkboxValues[2]}
-                        onChange={() => handleCheckboxChange(2)}
+                        onChange={() => handleCheckboxChange(2, tasks[2])}
                         label={task3}
                     />
                 </fieldset>
